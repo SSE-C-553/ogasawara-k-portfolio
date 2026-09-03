@@ -571,7 +571,7 @@ Tailwind CSS v4は現在のCLIによる事前生成を継続する。
 - [x] 画像の読み込み失敗と代替表示を確認する。
 - [x] コンソールエラーとリンク切れを確認する。
 - [x] Tailwind CSSを本番用に再生成する。
-- [ ] GitHub Pagesへpushした後に公開URLを確認する。
+- [x] GitHub Pagesへpushした後に公開URLを確認する。
 
 ## テスト項目
 
