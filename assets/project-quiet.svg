@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
-  <title id="title">Quiet Log</title>
-  <desc id="desc">時間と記録の蓄積をモチーフにした抽象ビジュアル</desc>
+  <title id="title">Visual Inspection</title>
+  <desc id="desc">画像による外観検査をモチーフにした仮ビジュアル</desc>
   <rect width="1200" height="820" fill="#dce5f0"/>
   <g fill="none" stroke="#b8c6d8">
     <circle cx="600" cy="410" r="330"/><circle cx="600" cy="410" r="248"/><circle cx="600" cy="410" r="166"/><circle cx="600" cy="410" r="84"/>
@@ -11,8 +11,8 @@
   <circle cx="600" cy="410" r="68" fill="#101a2d"/>
   <circle cx="600" cy="410" r="18" fill="#f8fbff"/>
   <g fill="#101a2d" font-family="monospace" font-size="16" letter-spacing="2">
-    <text x="70" y="86">QUIET LOG / DAILY SIGNAL</text>
-    <text x="70" y="750">ONE SMALL ENTRY AT A TIME</text>
+    <text x="70" y="86">VISUAL INSPECTION / SAMPLE</text>
+    <text x="70" y="750">REPLACE WITH PROJECT RESULT</text>
     <text x="1060" y="750">03</text>
   </g>
   <g fill="#617086" font-family="monospace" font-size="14">
