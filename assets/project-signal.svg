@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Signal Atlas</title>
+  <desc id="desc">センサーデータの波形をモチーフにした青い抽象ビジュアル</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#f8fbff" stroke-opacity=".13"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="16" dy="16" stdDeviation="0" flood-color="#101a2d" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="820" fill="#2457f5"/>
+  <rect width="1200" height="820" fill="url(#grid)"/>
+  <text x="70" y="86" fill="#f8fbff" font-family="monospace" font-size="18" letter-spacing="4">SIGNAL ATLAS / LIVE FIELD</text>
+  <text x="1070" y="86" fill="#f8fbff" font-family="monospace" font-size="18">01</text>
+  <rect x="80" y="164" width="1040" height="508" rx="4" fill="#eaf0f7" filter="url(#shadow)"/>
+  <g stroke="#b8c6d8" stroke-width="1">
+    <path d="M120 240H1080M120 330H1080M120 420H1080M120 510H1080M120 600H1080"/>
+    <path d="M220 204V632M380 204V632M540 204V632M700 204V632M860 204V632M1020 204V632"/>
+  </g>
+  <path d="M120 486C180 486 184 316 244 316S322 530 390 530 450 242 528 242s90 320 160 320 92-196 154-196 98 82 238 82" fill="none" stroke="#2457f5" stroke-linecap="round" stroke-width="9"/>
+  <g fill="#ff7358" stroke="#101a2d" stroke-width="5">
+    <circle cx="244" cy="316" r="14"/><circle cx="390" cy="530" r="14"/><circle cx="528" cy="242" r="14"/><circle cx="688" cy="562" r="14"/><circle cx="842" cy="366" r="14"/>
+  </g>
+  <text x="120" y="220" fill="#101a2d" font-family="Arial, sans-serif" font-size="38" font-weight="700">FIELD / 03</text>
+  <text x="120" y="620" fill="#617086" font-family="monospace" font-size="16" letter-spacing="2">08:42:16 — ALL CHANNELS NOMINAL</text>
+</svg>

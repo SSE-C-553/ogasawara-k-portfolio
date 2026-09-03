@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Folio Relay</title>
+  <desc id="desc">文字とカードのレイアウトをモチーフにした抽象ビジュアル</desc>
+  <rect width="1200" height="820" fill="#ff7358"/>
+  <circle cx="1048" cy="126" r="52" fill="#101a2d"/>
+  <circle cx="1048" cy="126" r="23" fill="#eaf0f7"/>
+  <path d="M78 118H900" stroke="#101a2d" stroke-width="2"/>
+  <text x="78" y="90" fill="#101a2d" font-family="monospace" font-size="18" letter-spacing="4">FOLIO RELAY / EDITION 02</text>
+  <g transform="translate(78 176)">
+    <rect width="474" height="510" rx="4" fill="#101a2d"/>
+    <rect x="42" y="42" width="390" height="244" fill="#2457f5"/>
+    <path d="M76 164c56-92 116 96 176 0s106 58 148-16" fill="none" stroke="#eaf0f7" stroke-width="5"/>
+    <text x="42" y="350" fill="#f8fbff" font-family="Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-4">MAKE IT</text>
+    <text x="42" y="420" fill="#f8fbff" font-family="Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-4">LEGIBLE.</text>
+    <text x="42" y="470" fill="#b8c6d8" font-family="monospace" font-size="16">WEB / IDENTITY / SYSTEM</text>
+  </g>
+  <g transform="translate(596 176)">
+    <rect width="526" height="146" rx="4" fill="#eaf0f7"/>
+    <text x="34" y="56" fill="#2457f5" font-family="monospace" font-size="15">PROJECT INDEX</text>
+    <text x="34" y="108" fill="#101a2d" font-family="Arial, sans-serif" font-size="42" font-weight="700">Selected work, clearly told.</text>
+    <rect y="172" width="526" height="338" rx="4" fill="#f8fbff"/>
+    <path d="M34 238H492M34 308H492M34 378H492M34 448H492" stroke="#b8c6d8"/>
+    <text x="34" y="218" fill="#617086" font-family="monospace" font-size="13">NAME</text>
+    <text x="390" y="218" fill="#617086" font-family="monospace" font-size="13">YEAR</text>
+    <g fill="#101a2d" font-family="Arial, sans-serif" font-size="23" font-weight="700">
+      <text x="34" y="282">Project North</text><text x="410" y="282">2026</text>
+      <text x="34" y="352">Common Ground</text><text x="410" y="352">2025</text>
+      <text x="34" y="422">Field Notes</text><text x="410" y="422">2025</text>
+    </g>
+  </g>
+</svg>

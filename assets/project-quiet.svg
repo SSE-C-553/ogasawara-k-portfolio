@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Quiet Log</title>
+  <desc id="desc">時間と記録の蓄積をモチーフにした抽象ビジュアル</desc>
+  <rect width="1200" height="820" fill="#dce5f0"/>
+  <g fill="none" stroke="#b8c6d8">
+    <circle cx="600" cy="410" r="330"/><circle cx="600" cy="410" r="248"/><circle cx="600" cy="410" r="166"/><circle cx="600" cy="410" r="84"/>
+    <path d="M600 52V768M242 410H958"/>
+  </g>
+  <path d="M600 80A330 330 0 0 1 918 324" fill="none" stroke="#2457f5" stroke-linecap="round" stroke-width="22"/>
+  <path d="M903 321A330 330 0 0 1 822 654" fill="none" stroke="#ff7358" stroke-linecap="round" stroke-width="22"/>
+  <circle cx="600" cy="410" r="68" fill="#101a2d"/>
+  <circle cx="600" cy="410" r="18" fill="#f8fbff"/>
+  <g fill="#101a2d" font-family="monospace" font-size="16" letter-spacing="2">
+    <text x="70" y="86">QUIET LOG / DAILY SIGNAL</text>
+    <text x="70" y="750">ONE SMALL ENTRY AT A TIME</text>
+    <text x="1060" y="750">03</text>
+  </g>
+  <g fill="#617086" font-family="monospace" font-size="14">
+    <text x="620" y="112">00:00</text><text x="904" y="398">06:00</text><text x="620" y="724">12:00</text><text x="252" y="398">18:00</text>
+  </g>
+</svg>
