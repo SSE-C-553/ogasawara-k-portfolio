@@ -11,9 +11,38 @@ import {
   containerClass,
   draftBadge,
   escapeHTML,
+  icon,
   pageHeader,
   sectionHeading,
 } from "../components/common.js";
+
+const recordList = (items) => `
+  <div class="divide-y divide-line border-y border-line">
+    ${items
+      .filter((item) => item.visible !== false)
+      .map(
+        (item) => `
+          <article class="grid gap-3 py-7 sm:grid-cols-[145px_1fr] sm:gap-8" data-reveal>
+            <time class="font-mono text-[10px] font-bold tracking-wide text-muted">${escapeHTML(localize(item.period))}</time>
+            <div>
+              <div class="flex flex-wrap items-center gap-3">
+                <h3 class="font-display text-lg font-semibold">${escapeHTML(localize(item.title))}</h3>
+                ${draftBadge(item.draft)}
+              </div>
+              <p class="mt-1 text-sm font-semibold text-accent">${escapeHTML(localize(item.organization))}</p>
+              <p class="mt-3 max-w-3xl text-sm leading-7 text-muted">${escapeHTML(localize(item.description))}</p>
+              ${
+                item.url
+                  ? `<a class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-accent transition hover:opacity-70" href="${escapeHTML(item.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(item.sourceLabel))}${icon("arrowUpRight", "size-3.5")}</a>`
+                  : ""
+              }
+            </div>
+          </article>
+        `,
+      )
+      .join("")}
+  </div>
+`;
 
 export const renderAbout = () => {
   const visibleEducation = education.filter((item) => item.visible);
@@ -140,8 +169,16 @@ export const renderAbout = () => {
         </div>
       </section>
 
-      ${qualifications.length ? `<section class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "QUALIFICATIONS", title: t("about.qualifications") })}</section>` : ""}
-      ${extracurriculars.length ? `<section class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "ACTIVITIES", title: t("about.extracurriculars") })}</section>` : ""}
+      ${
+        qualifications.some((item) => item.visible !== false)
+          ? `<section class="border-t border-line"><div class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "QUALIFICATIONS", title: t("about.qualifications") })}${recordList(qualifications)}</div></section>`
+          : ""
+      }
+      ${
+        extracurriculars.some((item) => item.visible !== false)
+          ? `<section class="border-y border-line bg-surface"><div class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "ACTIVITIES", title: t("about.extracurriculars") })}${recordList(extracurriculars)}</div></section>`
+          : ""
+      }
     </section>
   `;
 };

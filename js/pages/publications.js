@@ -21,7 +21,7 @@ export const renderPublications = (route) => {
   const filtered = source.filter((item) => {
     const matchesQuery =
       !query ||
-      searchableText(localize(item.title), item.authors, item.venue).includes(query);
+      searchableText(localize(item.title), item.authors, localize(item.venue)).includes(query);
     const matchesYear = !year || String(item.year) === year;
     const matchesType = !type || item.type === type;
     const matchesPeer =

@@ -55,7 +55,7 @@ export const messages = {
       preparing: "掲載準備中",
     },
     footer: {
-      note: "画像処理を学び、観察と実装の記録をまとめています。",
+      note: "画像処理とセンシングの研究、制作、発表をまとめています。",
       navigation: "ページ",
       connect: "リンク",
     },
@@ -143,6 +143,7 @@ export const messages = {
       categories: {
         research: "研究",
         presentation: "発表",
+        activity: "活動",
         award: "受賞",
         release: "公開",
       },
@@ -167,7 +168,7 @@ export const messages = {
       home: "ホームへ戻る",
     },
     meta: {
-      description: "画像処理を学ぶ小笠原圭吾のプロフィール、プロジェクト、論文・発表、ニュースを紹介するポートフォリオ。",
+      description: "画像処理とセンシングを研究する小笠原圭吾のプロフィール、プロジェクト、論文・発表、ニュースを紹介するポートフォリオ。",
     },
   },
   en: {
@@ -216,7 +217,7 @@ export const messages = {
       preparing: "Coming soon",
     },
     footer: {
-      note: "A record of observation and implementation while studying image processing.",
+      note: "Research, projects, and presentations in image processing and sensing.",
       navigation: "Pages",
       connect: "Connect",
     },
@@ -304,6 +305,7 @@ export const messages = {
       categories: {
         research: "Research",
         presentation: "Presentation",
+        activity: "Activity",
         award: "Award",
         release: "Release",
       },
@@ -328,7 +330,7 @@ export const messages = {
       home: "Back to home",
     },
     meta: {
-      description: "Keigo Ogasawara’s portfolio featuring image-processing projects, publications, profile, and news.",
+      description: "Keigo Ogasawara’s portfolio featuring image-processing and sensing research, projects, publications, profile, and news.",
     },
   },
 };

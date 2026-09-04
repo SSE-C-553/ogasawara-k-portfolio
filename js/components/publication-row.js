@@ -34,7 +34,7 @@ export const publicationRow = (publication) => {
       </div>
       <h2 class="mt-3 font-display text-lg font-semibold leading-7 tracking-[-0.02em] sm:text-xl">${escapeHTML(localize(publication.title))}</h2>
       <p class="mt-2 text-sm leading-6 text-muted">${authors}</p>
-      <p class="mt-1 text-sm font-medium text-muted">${escapeHTML(publication.venue)}, ${escapeHTML(publication.year)}</p>
+      <p class="mt-1 text-sm font-medium text-muted">${escapeHTML(localize(publication.venue))}, ${escapeHTML(publication.year)}</p>
       ${localize(publication.award) ? `<p class="mt-3 text-sm font-semibold text-draft">${escapeHTML(localize(publication.award))}</p>` : ""}
       ${links ? `<div class="mt-4 flex flex-wrap gap-2">${links}</div>` : ""}
     </article>
