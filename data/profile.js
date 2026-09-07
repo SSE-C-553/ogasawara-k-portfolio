@@ -25,7 +25,7 @@ export const profile = {
     ja: "北海道出身。苫小牧工業高等専門学校の本科（創造工学科 情報科学・工学系）を卒業後、同校専攻科の創造工学専攻へ進学しました。画像処理とセンシングを軸に、光学式マウスセンサを用いて眼球表面の微小な変位を取得する手法を研究しています。研究に加え、発表や配信の現場で使えるWebツールの設計・実装にも取り組んでいます。",
     en: "I am from Hokkaido and graduated from the Department of Engineering for Innovation, Computer Science and Engineering Program, at KOSEN Tomakomai College before continuing into its advanced course. My research explores a compact, low-cost method for acquiring subtle eye-surface displacement using an optical mouse sensor. I also design and build practical web tools for presentations and live events.",
   },
-  portrait: "",
+  portrait: "assets/profile-keigo-ogasawara.jpg",
 };
 
 export const education = [
