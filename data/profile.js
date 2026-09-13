@@ -13,10 +13,6 @@ export const profile = {
   origin: { ja: "北海道", en: "Hokkaido, Japan" },
   location: { ja: "北海道", en: "Hokkaido, Japan" },
   email: "okeigo1122@gmail.com",
-  tagline: {
-    ja: "小さな動きを、測れる情報へ。",
-    en: "Turning subtle motion into measurable information.",
-  },
   shortBio: {
     ja: "北海道出身。苫小牧高専専攻科で、画像処理とセンシングを軸に微小な眼球運動の計測手法を研究しています。",
     en: "Based in Hokkaido, I study image processing and sensing methods for measuring subtle eye movements at KOSEN Tomakomai College.",

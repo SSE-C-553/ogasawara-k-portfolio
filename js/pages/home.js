@@ -22,26 +22,16 @@ export const renderHome = () => {
   const focusTags = interests.filter((item) => item.visible && !item.draft).map((item) => localize(item.title));
   const portrait = profile.portrait
     ? `<img class="size-full object-cover" src="${escapeHTML(profile.portrait)}" alt="${escapeHTML(localize(profile.name))}" />`
-    : `<div class="relative grid size-full place-items-center bg-accent-soft">
+    : `<div class="grid size-full place-items-center bg-accent-soft">
         <span class="font-display text-[clamp(5rem,12vw,9rem)] font-semibold tracking-[-0.09em] text-accent/20">KO</span>
-        <div class="absolute inset-[15%] border border-accent/25" aria-hidden="true">
-          <span class="absolute -left-1 -top-1 size-2 bg-accent"></span>
-          <span class="absolute -bottom-1 -right-1 size-2 bg-accent"></span>
-        </div>
       </div>`;
 
   return `
     <section class="border-b border-line bg-surface">
       <div class="${containerClass} grid gap-10 py-12 sm:py-20 lg:min-h-[620px] lg:grid-cols-[0.86fr_1.14fr] lg:items-center lg:gap-16">
-        <div class="roi-frame relative overflow-hidden rounded-[16px] border border-line bg-canvas p-3 shadow-card" data-reveal>
+        <div class="relative overflow-hidden rounded-[16px] border border-line bg-canvas p-3 shadow-card" data-reveal>
           <div class="relative aspect-[4/4.4] overflow-hidden rounded-[11px]">
             ${portrait}
-            <div class="scan-line" aria-hidden="true"></div>
-            <div class="absolute inset-x-4 top-4 flex items-center justify-between font-mono text-[9px] font-bold tracking-[0.14em] text-accent">
-              <span>${escapeHTML(t("home.subject"))}</span>
-              <span class="flex items-center gap-2"><i class="size-1.5 animate-pulse rounded-full bg-accent"></i>${escapeHTML(t("home.scan"))}</span>
-            </div>
-            <span class="absolute bottom-4 left-4 rounded-md bg-surface/85 px-2.5 py-1.5 font-mono text-[9px] font-bold tracking-wider text-muted backdrop-blur">42.63 N / 141.60 E</span>
           </div>
         </div>
 
@@ -49,7 +39,6 @@ export const renderHome = () => {
           <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent">${escapeHTML(t("home.field"))}</p>
           <h1 class="mt-5 font-display text-4xl font-semibold tracking-[-0.045em] sm:text-6xl" tabindex="-1">${escapeHTML(localize(profile.name))}</h1>
           <p class="mt-2 font-display text-base font-medium text-muted">${escapeHTML(profile.name.en)}</p>
-          <p class="mt-7 max-w-2xl font-display text-[clamp(1.7rem,4vw,3.15rem)] font-semibold leading-[1.16] tracking-[-0.04em]">${escapeHTML(localize(profile.tagline))}</p>
           <p class="mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base">${escapeHTML(localize(profile.shortBio))}</p>
 
           <dl class="mt-7 grid gap-3 border-y border-line py-5 sm:grid-cols-2">
