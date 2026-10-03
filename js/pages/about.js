@@ -65,7 +65,7 @@ export const renderAbout = () => {
       })}
 
       <div class="${containerClass} grid gap-8 pb-16 md:grid-cols-[0.72fr_1.28fr] sm:pb-24">
-        <aside class="overflow-hidden rounded-[16px] border border-line bg-surface p-3 shadow-card" data-reveal>
+        <aside class="self-start overflow-hidden rounded-[16px] border border-line bg-surface p-3 shadow-card" data-reveal>
           <div class="aspect-[4/5] overflow-hidden rounded-[11px]">${portrait}</div>
         </aside>
         <div data-reveal>

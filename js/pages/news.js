@@ -65,7 +65,7 @@ export const renderNews = (route) => {
         ${resultCount(filtered.length)}
         ${
           pageData.items.length
-            ? `<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">${pageData.items.map((item) => newsCard(item)).join("")}</div>`
+            ? `<div class="news-list">${pageData.items.map((item) => newsCard(item)).join("")}</div>`
             : emptyState({
                 title: t("news.emptyTitle"),
                 body: t("news.emptyBody"),

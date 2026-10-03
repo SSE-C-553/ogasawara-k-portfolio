@@ -3,25 +3,42 @@ export const profile = {
   brand: "Ogasawara Keigo",
   monogram: "KO",
   role: {
-    ja: "専攻科生 / 画像処理・センシング",
-    en: "Advanced course student / Image processing & sensing",
+    ja: "専攻科生 / センシング",
+    en: "Advanced course student / Sensing",
   },
   affiliation: {
-    ja: "苫小牧工業高等専門学校 専攻科 創造工学専攻",
-    en: "Advanced Course, National Institute of Technology (KOSEN), Tomakomai College",
+    ja: "苫小牧工業高等専門学校 専攻科 創造工学専攻 情報エレクトロニクス系 先端情報エレクトロニクスコース",
+    en: "National Institute of Technology (KOSEN), Tomakomai College — Advanced Course of Engineering for Innovation, Division of Electronics and Information Engineering, Advanced Electronics and Information Engineering Course",
   },
-  origin: { ja: "北海道", en: "Hokkaido, Japan" },
+  // English program names follow the college's 2024 English guide, p. 14.
+  // https://www.tomakomai-ct.ac.jp/uploads/files/information/magazine/youran2024_eng.pdf
+  affiliationLines: {
+    ja: [
+      "苫小牧工業高等専門学校 専攻科",
+      "創造工学専攻",
+      "情報エレクトロニクス系",
+      "先端情報エレクトロニクスコース",
+    ],
+    en: [
+      "Advanced Engineering Course, NIT (KOSEN), Tomakomai College",
+      "Advanced Course of Engineering for Innovation",
+      "Division of Electronics and Information Engineering",
+      "Advanced Electronics and Information Engineering Course",
+    ],
+  },
+  origin: { ja: "北海道苫小牧市", en: "Tomakomai, Hokkaido, Japan" },
   location: { ja: "北海道", en: "Hokkaido, Japan" },
   email: "okeigo1122@gmail.com",
   shortBio: {
-    ja: "北海道出身。苫小牧高専専攻科で、画像処理とセンシングを軸に微小な眼球運動の計測手法を研究しています。",
-    en: "Based in Hokkaido, I study image processing and sensing methods for measuring subtle eye movements at KOSEN Tomakomai College.",
+    ja: "現在は苫小牧高専専攻科で、センシングを軸に研究しています。",
+    en: "I currently study in the advanced course at KOSEN Tomakomai College, with a research focus on sensing.",
   },
   fullBio: {
-    ja: "北海道出身。苫小牧工業高等専門学校の本科（創造工学科 情報科学・工学系）を卒業後、同校専攻科の創造工学専攻へ進学しました。画像処理とセンシングを軸に、光学式マウスセンサを用いて眼球表面の微小な変位を取得する手法を研究しています。研究に加え、発表や配信の現場で使えるWebツールの設計・実装にも取り組んでいます。",
-    en: "I am from Hokkaido and graduated from the Department of Engineering for Innovation, Computer Science and Engineering Program, at KOSEN Tomakomai College before continuing into its advanced course. My research explores a compact, low-cost method for acquiring subtle eye-surface displacement using an optical mouse sensor. I also design and build practical web tools for presentations and live events.",
+    ja: "北海道苫小牧市出身。苫小牧工業高等専門学校の本科（創造工学科 情報科学・工学系）を卒業後、同校専攻科へ進学しました。現在はセンシングを軸に、光学式マウスセンサを用いて眼球表面の微小な変位を計測する手法を研究しています。研究に加え、発表や配信の現場で使えるWebツールの設計・実装にも取り組んでいます。",
+    en: "I am from Tomakomai, Hokkaido, and graduated from the Department of Engineering for Innovation, Computer Science and Engineering Program, at KOSEN Tomakomai College before continuing into its advanced course. My current research focuses on sensing, particularly measuring minute eye-surface displacement using an optical mouse sensor. I also design and build web tools for presentations and live events.",
   },
   portrait: "assets/profile-keigo-ogasawara.jpg",
+  homePortrait: "assets/home-keigo-ogasawara.jpg",
 };
 
 export const education = [
@@ -31,10 +48,13 @@ export const education = [
       ja: "苫小牧工業高等専門学校 専攻科",
       en: "National Institute of Technology (KOSEN), Tomakomai College — Advanced Course",
     },
-    program: { ja: "創造工学専攻", en: "Advanced Course for Engineering for Innovation" },
+    program: {
+      ja: "創造工学専攻 情報エレクトロニクス系 先端情報エレクトロニクスコース",
+      en: "Advanced Course of Engineering for Innovation — Division of Electronics and Information Engineering, Advanced Electronics and Information Engineering Course",
+    },
     description: {
-      ja: "画像処理・センシングを軸に、光学式マウスセンサを用いたマイクロサッケード検出に向けた眼球変位量の取得手法を研究しています。",
-      en: "Researching an eye-displacement acquisition method using an optical mouse sensor, with the goal of detecting microsaccades.",
+      ja: "センシングを軸に、光学式マウスセンサを用いたマイクロサッケード検出に向けた眼球変位量の取得手法を研究しています。",
+      en: "Conducting sensing research on acquiring eye displacement using an optical mouse sensor, with the goal of detecting microsaccades.",
     },
     current: true,
     draft: false,
@@ -71,10 +91,19 @@ export const interests = [
     visible: true,
   },
   {
-    title: { ja: "画像処理・センシング", en: "Image processing & sensing" },
+    title: { ja: "画像処理", en: "Image processing" },
     description: {
-      ja: "画像やセンサの信号から、現象を説明できる変位・特徴・変化を取り出す技術に関心があります。",
-      en: "Interested in extracting interpretable displacement, features, and change from images and sensor signals.",
+      ja: "画像から、変位・特徴・変化を取り出す技術に関心があります。",
+      en: "Interested in extracting displacement, features, and changes from images.",
+    },
+    draft: false,
+    visible: true,
+  },
+  {
+    title: { ja: "センシング", en: "Sensing" },
+    description: {
+      ja: "センサの信号を用いて、対象の変位や変化を計測する技術に関心があります。",
+      en: "Interested in using sensor signals to measure displacement and changes in an object.",
     },
     draft: false,
     visible: true,
@@ -86,7 +115,7 @@ export const interests = [
       en: "Building small tools that improve presentation, streaming, and event workflows around research.",
     },
     draft: false,
-    visible: true,
+    visible: false,
   },
 ];
 

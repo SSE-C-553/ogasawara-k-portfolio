@@ -286,6 +286,51 @@
   transform: none;
 }
 
+.home-intro-layout { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px 20px; align-items: center; padding-top: 32px; padding-bottom: 40px; }
+.home-portrait { width: 112px; grid-column: 1; grid-row: 1; }
+.home-intro-name { grid-column: 2; grid-row: 1; min-width: 0; }
+.home-intro-content { grid-column: 1 / -1; min-width: 0; }
+.home-facts { grid-template-columns: minmax(0, 1fr); }
+.home-facts dd { overflow-wrap: anywhere; }
+
+.news-list { border-top: 1px solid var(--app-line); }
+.news-row { border-bottom: 1px solid var(--app-line); }
+.news-row-link { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 24px 0; }
+.news-date { color: var(--app-muted); font-size: 13px; line-height: 1.8; }
+.news-content { min-width: 0; }
+.news-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 6px; }
+.news-category { color: var(--app-accent); font-size: 11px; font-weight: 600; }
+.news-title { font-size: 17px; font-weight: 600; line-height: 1.7; }
+.news-summary { margin-top: 7px; font-size: 14px; line-height: 1.85; color: var(--app-muted); }
+.news-arrow { display: none; color: var(--app-accent); }
+a.news-row-link:hover .news-title { color: var(--app-accent); text-decoration: underline; text-underline-offset: 4px; }
+a.news-row-link:focus-visible { outline-offset: 5px; border-radius: 4px; }
+
+@media (min-width: 640px) {
+  .home-intro-layout { grid-template-columns: 160px minmax(0, 1fr); gap: 28px; padding-block: 44px; }
+  .home-portrait { width: 160px; }
+  .home-facts { grid-template-columns: minmax(0, 2fr) minmax(110px, 1fr); gap: 24px; }
+  .news-row-link { grid-template-columns: 144px minmax(0, 1fr) 24px; gap: 24px; padding-block: 28px; }
+  .news-title { font-size: 18px; }
+  .news-arrow { display: inline-flex; align-self: center; justify-self: end; }
+}
+
+@media (min-width: 768px) {
+  .home-intro-layout { grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr); column-gap: 40px; row-gap: 20px; padding-block: 56px; }
+  .home-portrait { width: 100%; grid-row: 1 / span 2; align-self: center; }
+  .home-intro-name { align-self: end; }
+  .home-intro-content { grid-column: 2; grid-row: 2; align-self: start; }
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .home-intro-layout { column-gap: 32px; }
+}
+
+@media (max-width: 379px) {
+  .home-intro-layout { grid-template-columns: 80px minmax(0, 1fr); gap: 22px 12px; }
+  .home-portrait { width: 80px; padding: 6px; }
+}
+
 @keyframes scan {
   from {
     top: 18%;

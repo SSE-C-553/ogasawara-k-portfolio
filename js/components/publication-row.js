@@ -1,4 +1,4 @@
-import { localize, t } from "../i18n.js";
+import { formatDate, localize, t } from "../i18n.js";
 import { draftBadge, escapeHTML, icon } from "./common.js";
 
 const linkLabels = {
@@ -29,12 +29,13 @@ export const publicationRow = (publication) => {
     <article class="border-b border-line py-7" data-reveal>
       <div class="flex flex-wrap items-center gap-2">
         <span class="rounded-full bg-accent-soft px-2.5 py-1 font-display text-[10px] font-semibold text-accent">${escapeHTML(t(`publications.types.${publication.type}`))}</span>
-        <span class="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold text-muted">${escapeHTML(publication.peerReviewed ? t("publications.reviewed") : t("publications.notReviewed"))}</span>
+        ${publication.peerReviewed === true ? `<span class="rounded-full border border-line px-2.5 py-1 text-[10px] font-semibold text-muted">${escapeHTML(t("publications.reviewed"))}</span>` : ""}
         ${draftBadge(publication.draft)}
       </div>
       <h2 class="mt-3 font-display text-lg font-semibold leading-7 tracking-[-0.02em] sm:text-xl">${escapeHTML(localize(publication.title))}</h2>
       <p class="mt-2 text-sm leading-6 text-muted">${authors}</p>
       <p class="mt-1 text-sm font-medium text-muted">${escapeHTML(localize(publication.venue))}, ${escapeHTML(publication.year)}</p>
+      ${localize(publication.status) ? `<p class="mt-3 text-sm font-medium text-muted">${publication.presentationDate ? `<time datetime="${escapeHTML(publication.presentationDate)}">${escapeHTML(formatDate(publication.presentationDate))}</time> · ` : ""}${escapeHTML(localize(publication.status))}</p>` : ""}
       ${localize(publication.award) ? `<p class="mt-3 text-sm font-semibold text-draft">${escapeHTML(localize(publication.award))}</p>` : ""}
       ${links ? `<div class="mt-4 flex flex-wrap gap-2">${links}</div>` : ""}
     </article>

@@ -42,9 +42,10 @@ export const renderProjectDetail = (projectId) => {
       </header>
 
       <figure class="${containerClass} pb-12" data-reveal>
-        <div class="roi-frame overflow-hidden rounded-[16px] border border-line bg-surface p-3 shadow-card">
-          <img class="aspect-[16/8] size-full rounded-[11px] object-cover" src="${escapeHTML(project.image)}" alt="${escapeHTML(localize(project.imageAlt))}" />
+        <div class="${project.imageCredit ? "bg-white" : "roi-frame bg-surface"} overflow-hidden rounded-[16px] border border-line p-3 shadow-card">
+          <img class="${project.imageCredit ? "mx-auto max-h-[520px] w-full object-contain" : "aspect-[16/8] size-full object-cover"} rounded-[11px]" src="${escapeHTML(project.image)}" alt="${escapeHTML(localize(project.imageAlt))}" />
         </div>
+        ${project.imageCredit ? `<figcaption class="mt-3 text-xs leading-6 text-muted"><a class="underline underline-offset-4 hover:text-accent" href="${escapeHTML(project.imageSource)}" target="_blank" rel="noreferrer">${escapeHTML(localize(project.imageCredit))}</a></figcaption>` : ""}
       </figure>
 
       <div class="${containerClass} grid gap-10 pb-16 md:grid-cols-[0.55fr_1.45fr] sm:pb-24">

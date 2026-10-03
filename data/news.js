@@ -4,23 +4,23 @@ export const newsItems = [
     date: "2026-09-08",
     category: "presentation",
     title: {
-      ja: "第31回日本バーチャルリアリティ学会大会で発表予定",
-      en: "Scheduled to present at VRSJ 2026",
+      ja: "第31回日本バーチャルリアリティ学会大会で発表",
+      en: "Presented at VRSJ 2026",
     },
     summary: {
-      ja: "光学式マウスセンサを用いた眼球変位量取得手法について、講演番号3E1-09として口頭・ポスター発表を行う予定です。",
-      en: "Scheduled to give oral and poster presentations on an optical-mouse-sensor method for measuring eye displacement as paper 3E1-09.",
+      ja: "2026年9月8日、光学式マウスセンサを用いた眼球変位量取得手法について、講演番号3E1-09として発表しました。",
+      en: "On September 8, 2026, I presented an optical-mouse-sensor method for acquiring eye displacement as paper 3E1-09.",
     },
     body: { ja: "", en: "" },
     image: "",
     imageAlt: { ja: "", en: "" },
-    relatedUrl: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html",
+    relatedUrl: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html#3E1-09",
     draft: false,
     visible: true,
   },
   {
     slug: "presentation-timer-release",
-    date: "2026-07-11",
+    date: "2026-07",
     category: "release",
     title: { ja: "発表進行タイマーを公開", en: "Released Presentation Timer" },
     summary: {
@@ -36,7 +36,7 @@ export const newsItems = [
   },
   {
     slug: "ny-pulse-2026-release",
-    date: "2025-12-25",
+    date: "2025-12",
     category: "release",
     title: { ja: "『ぱるすで福笑い』を制作", en: "Created Pulse Fukuwarai" },
     summary: {

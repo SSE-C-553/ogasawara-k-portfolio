@@ -3,7 +3,7 @@ import { projects } from "../../data/projects.js";
 import { publications } from "../../data/publications.js";
 import { newsItems } from "../../data/news.js";
 import { socialLinks } from "../../data/links.js";
-import { localize, t } from "../i18n.js";
+import { getLanguage, localize, t } from "../i18n.js";
 import {
   containerClass,
   escapeHTML,
@@ -20,31 +20,32 @@ export const renderHome = () => {
   const recentPublications = publications.filter((item) => item.visible !== false).slice(0, 3);
   const recentNews = newsItems.filter((item) => item.visible).slice(0, 3);
   const focusTags = interests.filter((item) => item.visible && !item.draft).map((item) => localize(item.title));
-  const portrait = profile.portrait
-    ? `<img class="size-full object-cover" src="${escapeHTML(profile.portrait)}" alt="${escapeHTML(localize(profile.name))}" />`
+  const portrait = profile.homePortrait
+    ? `<img class="size-full object-cover" src="${escapeHTML(profile.homePortrait)}" alt="${escapeHTML(localize(profile.name))}" width="1200" height="1200" fetchpriority="high" decoding="async" />`
     : `<div class="grid size-full place-items-center bg-accent-soft">
         <span class="font-display text-[clamp(5rem,12vw,9rem)] font-semibold tracking-[-0.09em] text-accent/20">KO</span>
       </div>`;
 
   return `
     <section class="border-b border-line bg-surface">
-      <div class="${containerClass} grid gap-10 py-12 sm:py-20 lg:min-h-[620px] lg:grid-cols-[0.86fr_1.14fr] lg:items-center lg:gap-16">
-        <div class="relative overflow-hidden rounded-[16px] border border-line bg-canvas p-3 shadow-card" data-reveal>
-          <div class="relative aspect-[4/4.4] overflow-hidden rounded-[11px]">
+      <div class="${containerClass} home-intro-layout">
+        <div class="home-portrait relative overflow-hidden rounded-[16px] border border-line bg-canvas p-2 shadow-card" data-reveal>
+          <div class="relative aspect-square overflow-hidden rounded-[11px]">
             ${portrait}
           </div>
         </div>
 
-        <div data-reveal>
-          <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent">${escapeHTML(t("home.field"))}</p>
-          <h1 class="mt-5 font-display text-4xl font-semibold tracking-[-0.045em] sm:text-6xl" tabindex="-1">${escapeHTML(localize(profile.name))}</h1>
-          <p class="mt-2 font-display text-base font-medium text-muted">${escapeHTML(profile.name.en)}</p>
-          <p class="mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base">${escapeHTML(localize(profile.shortBio))}</p>
+        <div class="home-intro-name" data-reveal>
+          <h1 class="font-display text-4xl font-semibold tracking-[-0.045em] sm:text-6xl" tabindex="-1">${escapeHTML(localize(profile.name))}</h1>
+          ${getLanguage() === "ja" ? `<p class="mt-2 font-display text-base font-medium text-muted">${escapeHTML(profile.name.en)}</p>` : ""}
+        </div>
+        <div class="home-intro-content" data-reveal>
+          <p class="max-w-xl text-sm leading-7 text-muted sm:text-base">${escapeHTML(localize(profile.shortBio))}</p>
 
-          <dl class="mt-7 grid gap-3 border-y border-line py-5 sm:grid-cols-2">
+          <dl class="home-facts mt-6 grid gap-4 border-y border-line py-5">
             <div>
               <dt class="text-xs font-semibold text-muted">${escapeHTML(t("home.affiliationLabel"))}</dt>
-              <dd class="mt-1 text-sm font-medium">${escapeHTML(localize(profile.affiliation))}</dd>
+              <dd class="mt-1 text-sm font-medium">${(localize(profile.affiliationLines) || [localize(profile.affiliation)]).map((line, index) => `<span class="${index === 0 ? "block" : "block text-xs font-normal leading-5 text-muted"}">${escapeHTML(line)}</span>`).join("")}</dd>
             </div>
             <div>
               <dt class="text-xs font-semibold text-muted">${escapeHTML(t("home.originLabel"))}</dt>
@@ -110,9 +111,7 @@ export const renderHome = () => {
               href: localizedRoute("news"),
               linkLabel: t("common.viewAll"),
             })}
-            <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              ${recentNews.map((item) => newsCard(item, 3)).join("")}
-            </div>
+            <div class="news-list">${recentNews.map((item) => newsCard(item, 3)).join("")}</div>
           </section>`
         : ""
     }

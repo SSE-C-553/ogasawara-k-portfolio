@@ -17,6 +17,10 @@ export const renderPublications = (route) => {
   const year = route.filters.year;
   const type = route.filters.type;
   const peer = route.filters.peer;
+  const matchesReview = (item, value) =>
+    (value === "reviewed" && item.peerReviewed === true) ||
+    (value === "not-reviewed" && item.peerReviewed === false) ||
+    (value === "unknown" && item.peerReviewed == null);
 
   const filtered = source.filter((item) => {
     const matchesQuery =
@@ -24,10 +28,7 @@ export const renderPublications = (route) => {
       searchableText(localize(item.title), item.authors, localize(item.venue)).includes(query);
     const matchesYear = !year || String(item.year) === year;
     const matchesType = !type || item.type === type;
-    const matchesPeer =
-      !peer ||
-      (peer === "reviewed" && item.peerReviewed) ||
-      (peer === "not-reviewed" && !item.peerReviewed);
+    const matchesPeer = !peer || matchesReview(item, peer);
     return matchesQuery && matchesYear && matchesType && matchesPeer;
   });
 
@@ -41,6 +42,13 @@ export const renderPublications = (route) => {
     label: t(`publications.types.${value}`),
   }));
   const hasFilters = Boolean(query || year || type || peer);
+  const peerOptions = [
+    { value: "reviewed", label: t("publications.reviewed") },
+    { value: "not-reviewed", label: t("publications.notReviewed") },
+    { value: "unknown", label: localize({ ja: "査読情報未確認", en: "Review status unconfirmed" }) },
+  ].filter((option) => source.some((item) => matchesReview(item, option.value)) || option.value === peer);
+  if (peer && !peerOptions.some((option) => option.value === peer)) peerOptions.push({ value: peer, label: peer });
+  const showPeerFilter = Boolean(peer) || peerOptions.length > 1;
 
   return `
     <section>
@@ -66,15 +74,12 @@ export const renderPublications = (route) => {
               value: type,
               options: typeOptions,
             },
-            {
+            ...(showPeerFilter ? [{
               name: "peer",
               label: t("publications.peer"),
               value: peer,
-              options: [
-                { value: "reviewed", label: t("publications.reviewed") },
-                { value: "not-reviewed", label: t("publications.notReviewed") },
-              ],
-            },
+              options: peerOptions,
+            }] : []),
           ],
         })}
         ${source.length ? resultCount(filtered.length) : ""}
