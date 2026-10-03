@@ -2,12 +2,13 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <base href="./" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
       content="画像処理を学ぶ小笠原圭吾のプロフィール、プロジェクト、論文・発表、ニュースを紹介するポートフォリオ。"
     />
-    <meta name="theme-color" content="#f8fafc" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="小笠原 圭吾 | Portfolio" />
     <meta
@@ -15,11 +16,22 @@
       content="画像処理を軸に、学びと制作の過程を記録するポートフォリオ。"
     />
     <title>小笠原 圭吾 | Portfolio</title>
+    <meta name="robots" content="index, follow" />
+    <meta property="og:url" content="https://sse-c-553.github.io/ogasawara-k-portfolio/" />
+    <meta property="og:image" content="https://sse-c-553.github.io/ogasawara-k-portfolio/assets/og-image.jpg" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="小笠原 圭吾 | Portfolio" />
+    <meta name="twitter:description" content="苫小牧高専専攻科で画像処理・センシングを研究する小笠原圭吾のポートフォリオ。" />
+    <meta name="twitter:image" content="https://sse-c-553.github.io/ogasawara-k-portfolio/assets/og-image.jpg" />
+    <link rel="canonical" href="https://sse-c-553.github.io/ogasawara-k-portfolio/" />
+    <link rel="alternate" hreflang="ja" href="https://sse-c-553.github.io/ogasawara-k-portfolio/" />
+    <link rel="alternate" hreflang="en" href="https://sse-c-553.github.io/ogasawara-k-portfolio/en/" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -27,8 +39,7 @@
         try {
           const savedTheme = localStorage.getItem("portfolio-theme");
           const useDark =
-            savedTheme === "dark" ||
-            (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+            savedTheme === "dark";
           document.documentElement.classList.toggle("dark", useDark);
           document.documentElement.dataset.theme = useDark ? "dark" : "light";
         } catch {
@@ -39,34 +50,28 @@
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="js/app.js"></script>
   </head>
-  <body class="bg-canvas text-ink antialiased">
+  <body class="flex min-h-screen flex-col bg-canvas text-ink antialiased">
     <a
       class="fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-ink px-4 py-3 text-sm font-semibold text-canvas transition-transform focus:translate-y-0"
       href="#app"
-      data-i18n="skip"
+      data-i18n="skip" data-skip-link
     >本文へ移動</a>
 
-    <header class="sticky top-0 z-50 border-b border-line bg-surface/90 backdrop-blur-xl">
-      <div class="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-5 sm:px-8 lg:px-10">
-        <a class="group flex shrink-0 items-center gap-3" href="?page=home&lang=ja" data-route data-home-route aria-label="Ogasawara Keigo">
-          <span class="roi-logo relative grid size-9 place-items-center rounded-[9px] bg-ink font-display text-[11px] font-semibold text-canvas transition group-hover:bg-accent">KO</span>
-          <span class="hidden leading-none sm:block">
-            <strong class="block font-display text-sm font-semibold tracking-[-0.02em]">Ogasawara Keigo</strong>
-            <small class="mt-1 block font-display text-[8px] font-semibold uppercase tracking-[0.18em] text-muted">Image Processing</small>
-          </span>
+    <header class="site-header sticky top-0 z-50 border-b border-line bg-surface/95 backdrop-blur-xl">
+      <div class="header-inner mx-auto flex h-16 w-full max-w-[1200px] items-center gap-4 px-5 sm:px-8 lg:px-10">
+        <a class="site-brand" href="?page=home&lang=ja" data-route data-home-route aria-label="Keigo Ogasawara">
+          <span class="hidden sm:inline">Keigo</span><span class="sm:hidden">K.</span> Ogasawara<span class="brand-dot" aria-hidden="true"></span>
         </a>
 
         <nav class="ml-auto hidden items-center gap-1 lg:flex" aria-label="メインナビゲーション" data-desktop-nav>
-          <a class="nav-link" href="?page=home&lang=ja" data-route data-nav-page="home" data-i18n="nav.home">ホーム</a>
-          <a class="nav-link" href="?page=about&lang=ja" data-route data-nav-page="about" data-i18n="nav.about">私について</a>
-          <a class="nav-link" href="?page=projects&lang=ja" data-route data-nav-page="projects" data-i18n="nav.projects">プロジェクト</a>
-          <a class="nav-link" href="?page=publications&lang=ja" data-route data-nav-page="publications" data-i18n="nav.publications">論文・発表</a>
-          <a class="nav-link" href="?page=news&lang=ja" data-route data-nav-page="news" data-i18n="nav.news">ニュース</a>
-          <a class="nav-link" href="?page=contact&lang=ja" data-route data-nav-page="contact" data-i18n="nav.contact">お問い合わせ</a>
+          <a class="nav-link" href="?page=projects&lang=ja" data-route data-nav-page="projects" data-i18n="nav.projects">研究・制作</a>
+          <a class="nav-link" href="?page=about&lang=ja" data-route data-nav-page="about" data-i18n="nav.about">プロフィール</a>
+          <a class="nav-link" href="?page=news&lang=ja" data-route data-nav-page="news" data-i18n="nav.news">活動記録</a>
+          <a class="nav-link" href="?page=contact&lang=ja" data-route data-nav-page="contact" data-i18n="nav.contact">連絡先</a>
         </nav>
 
-        <div class="ml-auto flex items-center gap-2 lg:ml-2">
-          <div class="flex items-center rounded-lg border border-line bg-canvas p-0.5 font-display text-[10px] font-semibold" aria-label="言語選択" data-language-switcher>
+        <div class="header-actions ml-auto flex items-center gap-2 lg:ml-2">
+          <div class="flex items-center rounded-lg border border-line bg-canvas p-0.5 font-display text-xs font-semibold" aria-label="言語選択" data-language-switcher>
             <button class="language-button" type="button" data-language="ja" aria-pressed="true">JA</button>
             <button class="language-button" type="button" data-language="en" aria-pressed="false">EN</button>
           </div>
@@ -108,8 +113,8 @@
       <div class="flex h-full flex-col p-6">
         <div class="flex items-center justify-between border-b border-line pb-5">
           <div>
-            <strong class="font-display text-lg font-semibold">Ogasawara Keigo</strong>
-            <p class="mt-1 font-display text-[9px] font-semibold uppercase tracking-[0.16em] text-muted">Portfolio</p>
+            <strong class="font-display text-lg font-semibold">Keigo Ogasawara</strong>
+            <p class="mt-1 font-display text-xs font-semibold uppercase tracking-[0.16em] text-muted">Portfolio</p>
           </div>
           <form method="dialog">
             <button class="grid size-10 place-items-center rounded-lg border border-line text-muted hover:border-accent hover:text-accent" type="submit">
@@ -122,17 +127,17 @@
         </div>
         <nav class="mt-6 grid" aria-label="メインナビゲーション">
           <a class="mobile-nav-link" href="?page=home&lang=ja" data-route data-nav-page="home" data-i18n="nav.home">ホーム</a>
-          <a class="mobile-nav-link" href="?page=about&lang=ja" data-route data-nav-page="about" data-i18n="nav.about">私について</a>
-          <a class="mobile-nav-link" href="?page=projects&lang=ja" data-route data-nav-page="projects" data-i18n="nav.projects">プロジェクト</a>
-          <a class="mobile-nav-link" href="?page=publications&lang=ja" data-route data-nav-page="publications" data-i18n="nav.publications">論文・発表</a>
-          <a class="mobile-nav-link" href="?page=news&lang=ja" data-route data-nav-page="news" data-i18n="nav.news">ニュース</a>
-          <a class="mobile-nav-link" href="?page=contact&lang=ja" data-route data-nav-page="contact" data-i18n="nav.contact">お問い合わせ</a>
+          <a class="mobile-nav-link" href="?page=projects&lang=ja" data-route data-nav-page="projects" data-i18n="nav.projects">研究・制作</a>
+          <a class="mobile-nav-link" href="?page=about&lang=ja" data-route data-nav-page="about" data-i18n="nav.about">プロフィール</a>
+          <a class="mobile-nav-link" href="?page=publications&lang=ja" data-route data-nav-page="publications" data-i18n="nav.publications">発表</a>
+          <a class="mobile-nav-link" href="?page=news&lang=ja" data-route data-nav-page="news" data-i18n="nav.news">活動記録</a>
+          <a class="mobile-nav-link" href="?page=contact&lang=ja" data-route data-nav-page="contact" data-i18n="nav.contact">連絡先</a>
         </nav>
         <p class="mt-auto border-t border-line pt-5 text-xs leading-6 text-muted" data-i18n="footer.note">画像処理を学び、観察と実装の記録をまとめています。</p>
       </div>
     </dialog>
 
-    <main class="min-h-[calc(100vh-64px)]" id="app" tabindex="-1" aria-live="polite" data-app>
+    <main class="flex-1" id="app" tabindex="-1" data-app>
       <section class="grid min-h-[70vh] place-items-center" aria-label="読み込み中">
         <div class="flex items-center gap-3 text-xs font-semibold text-muted">
           <span class="size-2 animate-pulse rounded-full bg-accent"></span>
@@ -141,36 +146,15 @@
       </section>
     </main>
 
-    <footer class="border-t border-line bg-surface">
-      <div class="mx-auto grid w-full max-w-[1120px] gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.2fr_0.8fr_0.7fr] lg:px-0">
-        <div>
-          <a class="inline-flex items-center gap-3" href="?page=home&lang=ja" data-route data-home-route>
-            <span class="roi-logo relative grid size-10 place-items-center rounded-[9px] bg-ink font-display text-xs font-semibold text-canvas">KO</span>
-            <span>
-              <strong class="block font-display text-base font-semibold">Ogasawara Keigo</strong>
-              <small class="text-xs text-muted">Image Processing Portfolio</small>
-            </span>
-          </a>
-          <p class="mt-5 max-w-sm text-sm leading-7 text-muted" data-i18n="footer.note">画像処理を学び、観察と実装の記録をまとめています。</p>
-          <p class="mt-6 font-mono text-[9px] font-bold tracking-wider text-muted">© <span data-current-year>2026</span> KEIGO OGASAWARA</p>
-        </div>
-
-        <div>
-          <h2 class="text-xs font-semibold text-muted" data-i18n="footer.navigation">ページ</h2>
-          <nav class="mt-4 grid grid-cols-2 gap-x-4 gap-y-3" aria-label="フッターナビゲーション">
-            <a class="text-sm hover:text-accent" href="?page=home&lang=ja" data-route data-footer-page="home" data-i18n="nav.home">ホーム</a>
-            <a class="text-sm hover:text-accent" href="?page=about&lang=ja" data-route data-footer-page="about" data-i18n="nav.about">私について</a>
-            <a class="text-sm hover:text-accent" href="?page=projects&lang=ja" data-route data-footer-page="projects" data-i18n="nav.projects">プロジェクト</a>
-            <a class="text-sm hover:text-accent" href="?page=publications&lang=ja" data-route data-footer-page="publications" data-i18n="nav.publications">論文・発表</a>
-            <a class="text-sm hover:text-accent" href="?page=news&lang=ja" data-route data-footer-page="news" data-i18n="nav.news">ニュース</a>
-            <a class="text-sm hover:text-accent" href="?page=contact&lang=ja" data-route data-footer-page="contact" data-i18n="nav.contact">お問い合わせ</a>
+    <footer class="site-footer border-t border-line">
+      <div class="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-x-8 gap-y-4 px-5 py-7 sm:px-8 lg:px-10">
+        <p class="text-xs text-muted">© <span data-current-year>2026</span> Keigo Ogasawara</p>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <nav class="flex gap-6 text-sm" aria-label="フッターナビゲーション">
+            <a href="?page=publications&lang=ja" data-route data-footer-page="publications" data-i18n="nav.publications">発表</a>
+            <a href="?page=contact&lang=ja" data-route data-footer-page="contact" data-i18n="nav.contact">連絡先</a>
           </nav>
-        </div>
-
-        <div>
-          <h2 class="text-xs font-semibold text-muted" data-i18n="footer.connect">リンク</h2>
-          <div class="mt-4 grid gap-3" data-footer-socials></div>
-          <a class="mt-4 block break-all text-sm text-muted underline decoration-line underline-offset-4 hover:text-accent" href="mailto:okeigo1122@gmail.com">okeigo1122@gmail.com</a>
+          <div class="flex gap-6" data-footer-socials></div>
         </div>
       </div>
     </footer>

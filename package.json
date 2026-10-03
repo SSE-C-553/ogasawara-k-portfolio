@@ -4,9 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run build:css",
+    "build": "npm run build:css && node scripts/build-site.mjs && node scripts/check-build.mjs",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css --minify",
+    "predev": "npm run build",
     "dev": "node scripts/dev-server.mjs",
+    "preview": "node scripts/dev-server.mjs",
+    "test": "node --test tests/*.test.mjs",
     "dev:css": "tailwindcss -i ./src/tailwind.css -o ./styles.css --watch"
   },
   "devDependencies": {

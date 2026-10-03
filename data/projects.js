@@ -1,6 +1,8 @@
 export const projects = [
   {
     slug: "microsaccade-eye-displacement",
+    kind: "research",
+    tagIds: ["eye-movement", "sensing"],
     title: {
       ja: "光学式マウスセンサによる眼球変位量取得",
       en: "Eye-displacement sensing with an optical mouse sensor",
@@ -10,13 +12,16 @@ export const projects = [
       en: "Research on acquiring minute eye-surface displacement for microsaccade detection with a compact, low-cost optical mouse sensor.",
     },
     category: "RESEARCH / SENSING",
+    categoryLabel: { ja: "研究・センシング", en: "Research & sensing" },
     date: "2026",
     technologies: ["Optical Mouse Sensor", "Eye Movement", "Measurement"],
-    image: "assets/project-signal.svg",
+    image: "assets/eye-displacement.png",
     imageAlt: {
-      ja: "微小な信号の計測を表現したプロジェクトビジュアル",
-      en: "Project visual representing the measurement of subtle signals",
+      ja: "光学式マウスセンサを用いた計測装置、疑似眼球と評価例を示す大会公開図",
+      en: "Published conference figure showing the optical mouse sensor, artificial-eye apparatus, and an evaluation example",
     },
+    imageCredit: { ja: "第31回日本バーチャルリアリティ学会大会の公開図（3E1-09）", en: "Public conference figure, VRSJ 2026 (3E1-09)" },
+    imageSource: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html#3E1-09",
     background: {
       ja: "マイクロサッケードは固視中に生じる微小かつ高速な眼球運動で、注意や意思決定との関連からVR・ARにおける意図推定などへの応用が期待されています。",
       en: "Microsaccades are minute, rapid eye movements during visual fixation. Their relationship with attention and decision making may support intent estimation in VR and AR.",
@@ -26,21 +31,21 @@ export const projects = [
       en: "Measurement requires high temporal and spatial resolution, while existing equipment tends to be large and costly.",
     },
     contribution: {
-      ja: "第一著者として、光学式マウスセンサを応用した計測手法を共同研究者とまとめ、第31回日本バーチャルリアリティ学会大会で発表予定です。",
-      en: "As first author, I worked with collaborators to present a measurement method based on an optical mouse sensor at the 31st Annual Conference of the Virtual Reality Society of Japan.",
+      ja: "第一著者として、2026年9月8日に第31回日本バーチャルリアリティ学会大会で本研究を発表しました。",
+      en: "As first author, I presented this collaborative research at VRSJ 2026 on September 8, 2026.",
     },
     method: {
       ja: "眼球表面の変位量を取得する計測部を開発し、疑似眼球を用いた評価によって取得可能性と今後の課題を検討しました。",
       en: "We developed a sensing unit for eye-surface displacement and evaluated it using an artificial eye to examine feasibility and remaining challenges.",
     },
     outcome: {
-      ja: "研究成果を講演番号3E1-09として、2026年9月8日に口頭発表・ポスター発表する予定です。",
-      en: "The work is scheduled for oral and poster presentation as paper 3E1-09 on September 8, 2026.",
+      ja: "VRSJ 2026で発表しました（講演番号3E1-09）。大会プログラムでは、計測装置の構成と疑似眼球を用いた評価例を公開しています。",
+      en: "Presented at VRSJ 2026 as paper 3E1-09. The conference program includes a figure showing the sensing apparatus and an artificial-eye evaluation example.",
     },
     links: [
       {
         label: { ja: "大会プログラム", en: "Conference program" },
-        url: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html",
+        url: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html#3E1-09",
       },
     ],
     featured: true,
@@ -49,19 +54,23 @@ export const projects = [
   },
   {
     slug: "presentation-timer",
+    kind: "creation",
+    tagIds: ["presentation", "react", "typescript"],
     title: { ja: "発表進行タイマー", en: "Presentation Timer" },
     summary: {
       ja: "学会・研究会・LT会向けに、操作画面と配信画面を分離したプレゼンテーションタイマーです。",
       en: "A presentation timer for conferences, seminars, and lightning talks with separate operator and broadcast views.",
     },
     category: "WEB TOOL / REACT",
+    categoryLabel: { ja: "Webツール", en: "Web tool" },
     date: "2026",
     technologies: ["React 19", "TypeScript", "Vite", "GitHub Pages"],
-    image: "assets/project-relay.svg",
+    image: "assets/presentation-timer.jpg",
     imageAlt: {
-      ja: "複数画面の同期を表現したプロジェクトビジュアル",
-      en: "Project visual representing synchronized displays",
+      ja: "発表進行タイマーの実際の操作画面。残り時間、配信比率、音量、鈴スケジュールを設定できる",
+      en: "Presentation Timer operator screen with remaining time, broadcast aspect ratio, volume, and bell scheduling",
     },
+    imageCredit: { ja: "公開アプリの操作画面", en: "Screenshot of the published application" },
     background: {
       ja: "学会、研究会、LT会などで、登壇者に見せる情報と配信に載せる情報を分けながら進行を管理する用途を想定して制作しました。",
       en: "Built for conferences, seminars, and lightning talks where the operator needs to manage timing separately from the display shown on stream.",
@@ -98,19 +107,23 @@ export const projects = [
   },
   {
     slug: "ny-pulse-2026",
+    kind: "creation",
+    tagIds: ["game", "canvas", "typescript"],
     title: { ja: "ぱるすで福笑い", en: "Pulse Fukuwarai" },
     summary: {
       ja: "2026年の年賀状に添えた、顔のパーツを動かして遊ぶブラウザ向け福笑いゲームです。",
       en: "A browser-based fukuwarai face-arrangement game created for a 2026 New Year's card.",
     },
     category: "WEB GAME / CANVAS",
+    categoryLabel: { ja: "Webゲーム", en: "Web game" },
     date: "2025–2026",
     technologies: ["TypeScript", "Vite", "Canvas", "Touch UI"],
-    image: "assets/project-quiet.svg",
+    image: "assets/pulse-fukuwarai.jpg",
     imageAlt: {
-      ja: "ブラウザゲームを表現したプロジェクトビジュアル",
-      en: "Project visual representing a browser game",
+      ja: "ぱるすで福笑いの実際のキャラクター選択画面",
+      en: "Actual character-selection screen of Pulse Fukuwarai",
     },
+    imageCredit: { ja: "公開ゲームのキャラクター選択画面", en: "Screenshot of the published game's character-selection screen" },
     background: {
       ja: "紙の年賀状からアクセスして遊べる小さなデジタル体験として、2026年向けに制作しました。",
       en: "Created as a small digital experience that recipients could open from a physical New Year's card for 2026.",

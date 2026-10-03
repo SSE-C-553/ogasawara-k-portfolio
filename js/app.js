@@ -1,9 +1,11 @@
 import { profile } from "../data/profile.js";
-import { projects } from "../data/projects.js";
-import { newsItems } from "../data/news.js";
 import { socialLinks } from "../data/links.js";
-import { getLanguage, localize, setLanguage, t } from "./i18n.js";
+import { setLanguage, t } from "./i18n.js";
 import { navigate, readRoute, routeUrl, updateQuery } from "./router.js";
+import { pageMetadata } from "./metadata.js";
+import { createSearchController } from "./search-controller.js";
+import { createMotionController } from "./motion.js";
+import { parseTagIds } from "./work-filters.js";
 import { icon } from "./components/common.js";
 import { renderHome } from "./pages/home.js";
 import { renderAbout } from "./pages/about.js";
@@ -16,6 +18,7 @@ import { renderContact } from "./pages/contact.js";
 import { renderNotFound } from "./pages/not-found.js";
 
 const app = document.querySelector("[data-app]");
+const motionController = createMotionController(app);
 const desktopNav = document.querySelector("[data-desktop-nav]");
 const mobileDialog = document.querySelector("[data-mobile-menu]");
 const menuButton = document.querySelector("[data-menu-button]");
@@ -25,12 +28,14 @@ const ogTitle = document.querySelector('meta[property="og:title"]');
 const ogDescription = document.querySelector('meta[property="og:description"]');
 
 const primaryPages = ["home", "about", "projects", "publications", "news", "contact"];
-let searchTimer;
+const searchController = createSearchController({
+  onSearch: (value, selectionPosition) => updateFilter("q", value, selectionPosition),
+});
 
 const pageMarkup = (route) => {
   switch (route.page) {
     case "home":
-      return renderHome();
+      return renderHome(route);
     case "about":
       return renderAbout();
     case "projects":
@@ -58,6 +63,7 @@ const activeNavigationPage = (page) => {
 
 const syncNavigation = (route) => {
   const activePage = activeNavigationPage(route.page);
+  document.querySelector("[data-skip-link]")?.setAttribute("href", `${window.location.pathname}${window.location.search}#app`);
 
   document.querySelectorAll("[data-nav-page]").forEach((link) => {
     const page = link.dataset.navPage;
@@ -84,6 +90,8 @@ const syncLanguage = (route) => {
   desktopNav?.setAttribute("aria-label", t("navAria"));
   document.querySelector("[data-language-switcher]")?.setAttribute("aria-label", t("languageAria"));
   mobileDialog?.setAttribute("aria-label", t("menu"));
+  mobileDialog?.querySelector("nav")?.setAttribute("aria-label", t("navAria"));
+  document.querySelector("footer nav")?.setAttribute("aria-label", t("navAria"));
 };
 
 const currentTheme = () => (document.documentElement.classList.contains("dark") ? "dark" : "light");
@@ -99,53 +107,23 @@ const syncThemeButton = () => {
   iconContainer.innerHTML = dark ? icon("sun", "size-[18px]") : icon("moon", "size-[18px]");
 };
 
-const pageTitle = (route) => {
-  if (route.page === "project") {
-    const project = projects.find((item) => item.slug === route.id);
-    if (project) return localize(project.title);
-  }
-
-  if (route.page === "news-detail") {
-    const item = newsItems.find((newsItem) => newsItem.slug === route.id);
-    if (item) return localize(item.title);
-  }
-
-  return t(`pages.${route.page}`);
-};
-
 const syncMetadata = (route) => {
-  const displayName = localize(profile.name);
-  const title = `${pageTitle(route)} | ${displayName}`;
-
-  document.title = title;
-  descriptionMeta.content = t("meta.description");
-  if (ogTitle) ogTitle.content = title;
-  if (ogDescription) ogDescription.content = t("meta.description");
-};
-
-const setupReveal = () => {
-  const elements = app.querySelectorAll("[data-reveal]");
-
-  if (
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    !("IntersectionObserver" in window)
-  ) {
-    elements.forEach((element) => element.classList.add("is-visible"));
-    return;
+  const metadata = pageMetadata(route);
+  document.title = metadata.title;
+  descriptionMeta.content = metadata.description;
+  if (ogTitle) ogTitle.content = metadata.title;
+  if (ogDescription) ogDescription.content = metadata.description;
+  for (const [property, value] of Object.entries({ "og:url": metadata.canonical, "og:image": metadata.image, "og:locale": metadata.locale })) {
+    document.querySelector(`meta[property="${property}"]`)?.setAttribute("content", value);
   }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      });
-    },
-    { threshold: 0.06 },
-  );
-
-  elements.forEach((element) => observer.observe(element));
+  document.querySelector('meta[name="robots"]')?.setAttribute("content", metadata.robots);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", metadata.title);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", metadata.description);
+  document.querySelector('meta[name="twitter:image"]')?.setAttribute("content", metadata.image);
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", metadata.canonical);
+  Object.entries(metadata.alternates).forEach(([language, href]) => {
+    document.querySelector(`link[hreflang="${language}"]`)?.setAttribute("href", href);
+  });
 };
 
 const closeMenu = () => {
@@ -157,8 +135,11 @@ const render = ({
   focusHeading = false,
   preserveScroll = false,
   focusFilter = "",
+  focusSelector = "",
   selectionPosition = null,
 } = {}) => {
+  searchController.reset();
+  const filtersOpen = preserveScroll ? app.querySelector("[data-filter-panel]")?.open : undefined;
   let route = readRoute();
 
   if (route.alias) {
@@ -169,26 +150,33 @@ const render = ({
   setLanguage(route.language);
   const previousScroll = window.scrollY;
 
-  app.classList.add("is-switching");
+  motionController.reset();
+  app.classList.toggle("is-switching", focusHeading && !preserveScroll && !motionController.isReducedMotion());
   app.innerHTML = pageMarkup(route);
+  if (filtersOpen !== undefined) app.querySelector("[data-filter-panel]")?.toggleAttribute("open", filtersOpen);
   syncLanguage(route);
   syncNavigation(route);
   syncThemeButton();
   syncMetadata(route);
   closeMenu();
+  motionController.setup({ animate: !preserveScroll });
 
   if (!preserveScroll) window.scrollTo({ top: 0, behavior: "instant" });
   else window.scrollTo({ top: previousScroll, behavior: "instant" });
 
   window.requestAnimationFrame(() => {
     app.classList.remove("is-switching");
-    setupReveal();
 
     if (focusHeading) app.querySelector("h1")?.focus({ preventScroll: true });
 
+    if (focusSelector) {
+      const control = document.querySelector(focusSelector) || app.querySelector("[data-filter-panel] > summary");
+      control?.focus({ preventScroll: true });
+    }
+
     if (focusFilter) {
       const field = app.querySelector(`[data-filter="${CSS.escape(focusFilter)}"]`);
-      field?.focus({ preventScroll: true });
+      (field || app.querySelector("[data-filter-panel] > summary"))?.focus({ preventScroll: true });
       if (
         field instanceof HTMLInputElement &&
         Number.isInteger(selectionPosition)
@@ -197,9 +185,19 @@ const render = ({
       }
     }
 
-    if (window.location.hash) {
-      const target = document.querySelector(window.location.hash);
-      target?.scrollIntoView({ block: "start" });
+    if (window.location.hash && !preserveScroll) {
+      try {
+        const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+        if (target) {
+          target.scrollIntoView({ block: "start" });
+          const focusTarget = target.matches("h1, h2, h3, h4, h5, h6")
+            ? target : target.querySelector("h1, h2, h3, h4, h5, h6") || target;
+          if (!focusTarget.hasAttribute("tabindex")) focusTarget.setAttribute("tabindex", "-1");
+          focusTarget.focus({ preventScroll: true });
+        }
+      } catch {
+        // Malformed fragments must not interrupt page rendering.
+      }
     }
   });
 };
@@ -224,10 +222,9 @@ document.addEventListener("click", (event) => {
 
   const languageButton = event.target.closest("[data-language]");
   if (languageButton) {
-    const url = new URL(window.location.href);
-    url.searchParams.set("lang", languageButton.dataset.language);
-    navigate(`${url.pathname}${url.search}${url.hash}`);
-    render();
+    const route = readRoute();
+    navigate(routeUrl(route.page, languageButton.dataset.language, { ...route.filters, id: route.id }, window.location.hash));
+    render({ preserveScroll: true, focusSelector: `[data-language="${CSS.escape(languageButton.dataset.language)}"]` });
     return;
   }
 
@@ -247,23 +244,52 @@ document.addEventListener("click", (event) => {
 
   const copyButton = event.target.closest("[data-copy-email]");
   if (copyButton) {
-    navigator.clipboard
-      .writeText(profile.email)
+    Promise.resolve().then(() => {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+      return navigator.clipboard.writeText(profile.email);
+    })
       .then(() => {
         toast.textContent = t("contact.copied");
         toast.classList.add("is-visible");
         window.setTimeout(() => toast.classList.remove("is-visible"), 1800);
       })
       .catch(() => {
-        window.location.href = `mailto:${profile.email}`;
+        toast.textContent = t("contact.copyFailed");
+        toast.classList.add("is-visible");
+        window.setTimeout(() => toast.classList.remove("is-visible"), 4000);
       });
+    return;
+  }
+
+  const kindButton = event.target.closest("[data-work-kind]");
+  if (kindButton) {
+    const kind = kindButton.dataset.workKind;
+    updateQuery({ kind, p: "" });
+    render({ preserveScroll: true, focusSelector: `[data-work-kind="${CSS.escape(kind)}"]` });
+    return;
+  }
+
+  const tagButton = event.target.closest("[data-work-tag]");
+  if (tagButton) {
+    const id = tagButton.dataset.workTag;
+    const selected = parseTagIds(readRoute().filters.tags);
+    const next = selected.includes(id) ? selected.filter((tag) => tag !== id) : [...selected, id];
+    updateQuery({ tags: next.join(","), p: "" });
+    render({ preserveScroll: true, focusSelector: `[data-work-tag="${CSS.escape(id)}"]:not([data-selected-tag])` });
+    return;
+  }
+
+  const clearTagsButton = event.target.closest("[data-clear-work-tags]");
+  if (clearTagsButton) {
+    updateQuery({ tags: "", p: "" });
+    render({ preserveScroll: true, focusSelector: "[data-filter-panel] > summary" });
     return;
   }
 
   const clearButton = event.target.closest("[data-clear-filters]");
   if (clearButton) {
-    updateQuery({ q: "", category: "", year: "", type: "", peer: "", p: "" });
-    render({ preserveScroll: true });
+    updateQuery({ q: "", category: "", year: "", type: "", peer: "", p: "", kind: "", tags: "", sort: "" });
+    render({ preserveScroll: true, focusSelector: '[data-work-kind=""], [data-filter-panel] > summary, [data-filter="q"]' });
     return;
   }
 
@@ -278,11 +304,14 @@ document.addEventListener("input", (event) => {
   const input = event.target.closest('input[data-filter="q"]');
   if (!input) return;
 
-  window.clearTimeout(searchTimer);
-  const selectionPosition = input.selectionStart;
-  searchTimer = window.setTimeout(() => {
-    updateFilter("q", input.value, selectionPosition);
-  }, 120);
+  searchController.input(event);
+});
+
+document.addEventListener("compositionstart", (event) => {
+  if (event.target.matches('input[data-filter="q"]')) searchController.compositionStart();
+});
+document.addEventListener("compositionend", (event) => {
+  if (event.target.matches('input[data-filter="q"]')) searchController.compositionEnd(event);
 });
 
 document.addEventListener("change", (event) => {

@@ -1,102 +1,55 @@
 import { projects } from "../../data/projects.js";
+import { publications } from "../../data/publications.js";
 import { localize, t } from "../i18n.js";
-import {
-  containerClass,
-  draftBadge,
-  escapeHTML,
-  icon,
-  localizedRoute,
-} from "../components/common.js";
+import { containerClass, draftBadge, escapeHTML, icon, localizedRoute } from "../components/common.js";
+import { publicationRow } from "../components/publication-row.js";
 import { renderNotFound } from "./not-found.js";
 
 export const renderProjectDetail = (projectId) => {
   const project = projects.find((item) => item.slug === projectId && item.visible);
   if (!project) return renderNotFound(t("projects.missing"));
 
-  const narrative = [
-    ["BACKGROUND", t("projects.narrative.background"), project.background],
-    ["CHALLENGE", t("projects.narrative.challenge"), project.challenge],
-    ["CONTRIBUTION", t("projects.narrative.contribution"), project.contribution],
-    ["METHOD", t("projects.narrative.method"), project.method],
-    ["OUTCOME", t("projects.narrative.outcome"), project.outcome],
+  const research = project.kind === "research" || project.slug === "microsaccade-eye-displacement";
+  const relatedPublications = publications.filter((item) => item.visible && item.projectSlug === project.slug);
+  const narrative = research ? [
+    [{ ja: "研究の背景", en: "Research context" }, [project.background, project.challenge]],
+    [{ ja: "計測方法と評価", en: "Method & evaluation" }, [project.method, project.outcome]],
+    [{ ja: "学会発表", en: "Conference presentation" }, [project.contribution]],
+  ] : [
+    [{ ja: "用途と機能", en: "Purpose & functionality" }, [project.background, project.challenge]],
+    [{ ja: "実装と公開", en: "Implementation & release" }, [project.contribution, project.method, project.outcome]],
   ];
 
-  return `
-    <article>
-      <div class="${containerClass} pt-10 sm:pt-14">
-        <a class="group inline-flex items-center gap-2 text-sm font-semibold text-muted transition hover:text-accent" href="${localizedRoute("projects")}" data-route>
-          <span class="rotate-180">${icon("arrowRight", "size-4 transition-transform group-hover:-translate-x-1")}</span>
-          ${escapeHTML(t("projects.back"))}
-        </a>
-      </div>
-
-      <header class="${containerClass} grid gap-6 pb-10 pt-10 md:grid-cols-[1.1fr_0.9fr] md:items-end sm:pb-14" data-reveal>
-        <div>
-          <p class="font-display text-xs font-semibold uppercase tracking-[0.18em] text-accent">${escapeHTML(project.category)} / ${escapeHTML(project.date)}</p>
-          <div class="mt-4 flex flex-wrap items-center gap-4">
-            <h1 class="font-display text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-5xl" tabindex="-1">${escapeHTML(localize(project.title))}</h1>
-            ${draftBadge(project.draft)}
-          </div>
-        </div>
-        <p class="text-sm leading-7 text-muted sm:text-base">${escapeHTML(localize(project.summary))}</p>
+  return `<article class="reading-page ${containerClass} pb-14 pt-7 sm:pb-20 sm:pt-9">
+    <div class="mx-auto max-w-[760px]">
+      <a class="group inline-flex min-h-9 items-center gap-2 text-sm font-medium text-muted transition hover:text-accent" href="${localizedRoute("projects")}" data-route>
+        <span class="rotate-180">${icon("arrowRight")}</span>${escapeHTML(t("projects.back"))}
+      </a>
+      <header class="pb-7 pt-5" data-reveal>
+        <p class="text-sm text-muted">${escapeHTML(localize(project.categoryLabel) || project.category)}<span class="mx-3 text-line" aria-hidden="true">/</span>${escapeHTML(project.date)}</p>
+        <h1 class="mt-3 font-display text-2xl font-semibold leading-relaxed tracking-[-0.025em] sm:text-3xl" tabindex="-1">${escapeHTML(localize(project.title))}</h1>
+        ${draftBadge(project.draft)}
+        <p class="mt-4 text-base leading-8">${escapeHTML(localize(project.summary))}</p>
+        <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1" aria-label="${escapeHTML(t("common.technologies"))}">
+          ${project.technologies.map((technology) => `<li class="text-sm leading-7 text-muted">${escapeHTML(technology)}</li>`).join("")}
+        </ul>
+        ${project.links.length ? `<div class="mt-4 flex flex-wrap gap-x-6 gap-y-2">${project.links.map((link) => `<a class="inline-flex min-h-9 items-center gap-2 text-sm font-medium text-accent underline decoration-line underline-offset-4 hover:decoration-accent" href="${escapeHTML(link.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(link.label))}${icon("arrowUpRight")}</a>`).join("")}</div>` : ""}
       </header>
 
-      <figure class="${containerClass} pb-12" data-reveal>
-        <div class="roi-frame overflow-hidden rounded-[16px] border border-line bg-surface p-3 shadow-card">
-          <img class="aspect-[16/8] size-full rounded-[11px] object-cover" src="${escapeHTML(project.image)}" alt="${escapeHTML(localize(project.imageAlt))}" />
+      <figure class="mb-8" data-reveal>
+        <div class="overflow-hidden rounded-md border border-line bg-white ${research ? "p-4 sm:p-6" : ""}">
+          <img class="mx-auto max-h-[320px] w-full object-contain sm:max-h-[430px]" src="${escapeHTML(project.image)}" alt="${escapeHTML(localize(project.imageAlt))}" decoding="async" />
         </div>
+        ${project.imageCredit ? `<figcaption class="mt-2 text-xs leading-6 text-muted">${project.imageSource ? `<a class="underline underline-offset-4 hover:text-accent" href="${escapeHTML(project.imageSource)}" target="_blank" rel="noreferrer">${escapeHTML(localize(project.imageCredit))}</a>` : escapeHTML(localize(project.imageCredit))}</figcaption>` : ""}
       </figure>
 
-      <div class="${containerClass} grid gap-10 pb-16 md:grid-cols-[0.55fr_1.45fr] sm:pb-24">
-        <aside data-reveal>
-          <dl class="divide-y divide-line border-y border-line">
-            ${[
-              [t("projects.period"), project.date],
-              [t("common.category"), project.category],
-              [t("projects.status"), project.draft ? t("common.draft") : t("projects.published")],
-            ]
-              .map(
-                ([label, value]) => `
-                  <div class="py-4">
-                    <dt class="text-xs font-semibold text-muted">${escapeHTML(label)}</dt>
-                    <dd class="mt-1 text-sm font-medium">${escapeHTML(value)}</dd>
-                  </div>
-                `,
-              )
-              .join("")}
-          </dl>
-          <h2 class="mt-7 text-xs font-semibold text-muted">${escapeHTML(t("common.technologies"))}</h2>
-          <ul class="mt-3 flex flex-wrap gap-2">
-            ${project.technologies.map((technology) => `<li class="rounded-full border border-line bg-surface px-3 py-2 text-xs font-semibold">${escapeHTML(technology)}</li>`).join("")}
-          </ul>
-          ${
-            project.links.length
-              ? `<div class="mt-7 grid gap-2">${project.links
-                  .map(
-                    (link) =>
-                      `<a class="flex items-center justify-between rounded-lg border border-line bg-surface px-4 py-3 text-sm font-semibold transition hover:border-accent hover:text-accent" href="${escapeHTML(link.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(link.label))}${icon("arrowUpRight", "size-4")}</a>`,
-                  )
-                  .join("")}</div>`
-              : ""
-          }
-        </aside>
-
-        <div class="divide-y divide-line border-y border-line">
-          ${narrative
-            .map(
-              ([kicker, title, body]) => `
-                <section class="grid gap-4 py-7 sm:grid-cols-[135px_1fr]" data-reveal>
-                  <div>
-                    <p class="font-display text-[10px] font-semibold tracking-[0.16em] text-accent">${kicker}</p>
-                    <h2 class="mt-2 font-display text-lg font-semibold">${escapeHTML(title)}</h2>
-                  </div>
-                  <p class="text-sm leading-7 text-muted">${escapeHTML(localize(body))}</p>
-                </section>
-              `,
-            )
-            .join("")}
-        </div>
+      <div class="divide-y divide-line border-t border-line">
+        ${narrative.map(([title, paragraphs], index) => `<section class="py-7 sm:py-8" data-reveal>
+          <h2 class="text-xl font-semibold leading-8">${escapeHTML(localize(title))}</h2>
+          <div class="mt-4 space-y-4">${paragraphs.filter((body) => Boolean(localize(body))).map((body) => `<p class="text-base leading-8">${escapeHTML(localize(body))}</p>`).join("")}</div>
+          ${research && index === narrative.length - 1 && relatedPublications.length ? `<div class="mt-5">${relatedPublications.map((item) => publicationRow(item, 3)).join("")}</div>` : ""}
+        </section>`).join("")}
       </div>
-    </article>
-  `;
+    </div>
+  </article>`;
 };

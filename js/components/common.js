@@ -1,7 +1,7 @@
 import { getLanguage, localize, t } from "../i18n.js";
 import { routeUrl } from "../router.js";
 
-export const containerClass = "mx-auto w-full max-w-[1120px] px-5 sm:px-8 lg:px-0";
+export const containerClass = "mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-10";
 
 export const escapeHTML = (value = "") =>
   String(value).replace(
@@ -46,22 +46,20 @@ export const localizedRoute = (page, extra = {}, hash = "") =>
 
 export const draftBadge = (draft) =>
   draft
-    ? `<span class="inline-flex items-center rounded-full border border-draft/30 bg-draft-soft px-2.5 py-1 text-[10px] font-semibold text-draft">${escapeHTML(t("common.draft"))}</span>`
+    ? `<span class="inline-flex items-center rounded-full border border-draft/30 bg-draft-soft px-2.5 py-1 text-xs font-semibold text-draft">${escapeHTML(t("common.draft"))}</span>`
     : "";
 
 export const pageHeader = ({ kicker, title, description }) => `
-  <header class="${containerClass} pb-10 pt-12 text-center sm:pb-14 sm:pt-20" data-reveal>
-    <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent">${escapeHTML(kicker)}</p>
-    <h1 class="mt-4 font-display text-4xl font-semibold tracking-[-0.045em] sm:text-5xl" tabindex="-1">${escapeHTML(title)}</h1>
-    <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-muted sm:text-base">${escapeHTML(description)}</p>
+  <header class="${containerClass} pb-7 pt-9 sm:pb-9 sm:pt-12" data-reveal>
+    <h1 class="font-display text-2xl font-semibold tracking-tight sm:text-3xl" tabindex="-1">${escapeHTML(title)}</h1>
+    ${description ? `<p class="mt-3 max-w-2xl text-base leading-7 text-muted">${escapeHTML(description)}</p>` : ""}
   </header>
 `;
 
 export const sectionHeading = ({ kicker, title, href = "", linkLabel = "" }) => `
-  <div class="mb-7 flex items-end justify-between gap-6 sm:mb-9" data-reveal>
+  <div class="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-7" data-reveal>
     <div>
-      <p class="font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-accent">${escapeHTML(kicker)}</p>
-      <h2 class="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">${escapeHTML(title)}</h2>
+      <h2 class="font-display text-xl font-semibold tracking-tight sm:text-2xl">${escapeHTML(title)}</h2>
     </div>
     ${
       href
@@ -89,6 +87,9 @@ export const emptyState = ({ title, body, showClear = false }) => `
 const optionsMarkup = (options, currentValue, allLabel) =>
   [
     `<option value="">${escapeHTML(allLabel)}</option>`,
+    currentValue && !options.some((option) => String(option.value) === String(currentValue))
+      ? `<option value="${escapeHTML(currentValue)}" selected>${escapeHTML(currentValue)}</option>`
+      : "",
     ...options.map(
       (option) =>
         `<option value="${escapeHTML(option.value)}" ${String(option.value) === String(currentValue) ? "selected" : ""}>${escapeHTML(option.label)}</option>`,
@@ -96,7 +97,7 @@ const optionsMarkup = (options, currentValue, allLabel) =>
   ].join("");
 
 export const filterBar = ({ query = "", searchPlaceholder, selects = [] }) => `
-  <form class="mb-8 grid gap-3" data-filter-form role="search">
+  <form class="mb-6 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto]" data-filter-form role="search">
     <label class="relative block">
       <span class="sr-only">${escapeHTML(t("common.search"))}</span>
       <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted">${icon("search", "size-[18px]")}</span>
@@ -116,7 +117,7 @@ export const filterBar = ({ query = "", searchPlaceholder, selects = [] }) => `
             ${selects
               .map(
                 (select) => `
-                  <label class="relative block lg:min-w-44">
+                  <label class="relative block lg:min-w-36">
                     <span class="sr-only">${escapeHTML(select.label)}</span>
                     <select
                       class="h-11 w-full appearance-none rounded-lg border border-line bg-surface px-4 pr-10 text-sm text-ink outline-none transition focus:border-accent focus:ring-4 focus:ring-accent-soft"
@@ -137,11 +138,19 @@ export const filterBar = ({ query = "", searchPlaceholder, selects = [] }) => `
 `;
 
 export const resultCount = (count) => `
-  <p class="mb-6 text-center text-sm text-muted" aria-live="polite">
+  <p class="mb-5 text-sm text-muted" aria-live="polite">
     <strong class="font-display font-semibold text-ink">${count}</strong>
     ${escapeHTML(t("common.results"))}
   </p>
 `;
+
+export const filterPanel = ({ count, active = false, ...options }) => {
+  if (count >= 6) return filterBar(options);
+  return `<details class="mb-6 rounded-lg border border-line bg-surface px-4" data-filter-panel ${active ? "open" : ""}>
+    <summary class="cursor-pointer py-3 text-sm font-medium text-muted">${escapeHTML(t("common.filter"))}</summary>
+    <div class="pt-2">${filterBar(options)}</div>
+  </details>`;
+};
 
 export const pagination = ({ page, totalPages }) => {
   if (totalPages <= 1) return "";
@@ -154,7 +163,7 @@ export const pagination = ({ page, totalPages }) => {
       ${pages
         .map(
           (number) =>
-            `<button class="grid size-10 place-items-center rounded-lg border text-sm font-semibold ${number === page ? "border-accent bg-accent text-white" : "border-line bg-surface hover:border-accent"}" type="button" data-page-number="${number}" aria-current="${number === page ? "page" : "false"}">${number}</button>`,
+            `<button class="grid size-10 place-items-center rounded-lg border text-sm font-semibold ${number === page ? "border-accent bg-ink text-canvas" : "border-line bg-surface hover:border-accent"}" type="button" data-page-number="${number}" aria-current="${number === page ? "page" : "false"}">${number}</button>`,
         )
         .join("")}
       <button class="rounded-lg border border-line bg-surface px-3 py-2 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40" type="button" data-page-number="${page + 1}" ${page === totalPages ? "disabled" : ""}>${escapeHTML(t("common.next"))}</button>

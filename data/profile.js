@@ -14,19 +14,20 @@ export const profile = {
   location: { ja: "北海道", en: "Hokkaido, Japan" },
   email: "okeigo1122@gmail.com",
   shortBio: {
-    ja: "北海道出身。苫小牧高専専攻科で、画像処理とセンシングを軸に微小な眼球運動の計測手法を研究しています。",
-    en: "Based in Hokkaido, I study image processing and sensing methods for measuring subtle eye movements at KOSEN Tomakomai College.",
+    ja: "光学式マウスセンサを使った微小な眼球運動の計測手法を研究しています。発表支援ツールなどのWebアプリも制作しています。",
+    en: "I study how optical mouse sensors can measure subtle eye movements. I also build web tools for presentations and interactive experiences.",
   },
   fullBio: {
-    ja: "北海道出身。苫小牧工業高等専門学校の本科（創造工学科 情報科学・工学系）を卒業後、同校専攻科の創造工学専攻へ進学しました。画像処理とセンシングを軸に、光学式マウスセンサを用いて眼球表面の微小な変位を取得する手法を研究しています。研究に加え、発表や配信の現場で使えるWebツールの設計・実装にも取り組んでいます。",
-    en: "I am from Hokkaido and graduated from the Department of Engineering for Innovation, Computer Science and Engineering Program, at KOSEN Tomakomai College before continuing into its advanced course. My research explores a compact, low-cost method for acquiring subtle eye-surface displacement using an optical mouse sensor. I also design and build practical web tools for presentations and live events.",
+    ja: "苫小牧高専の本科で情報科学・工学を学び、2025年3月の卒業後、同校専攻科へ進学しました。現在は、光学式マウスセンサを用いて眼球表面の微小な変位を計測する手法を研究しています。研究のほか、発表進行タイマーやブラウザゲームなどのWebアプリケーションを制作しています。",
+    en: "After studying computer science and engineering at KOSEN Tomakomai College and graduating in March 2025, I continued into its advanced course. My research examines how an optical mouse sensor can measure minute displacements of the eye surface. Alongside this work, I develop web applications, including a presentation timer and a browser game.",
   },
   portrait: "assets/profile-keigo-ogasawara.jpg",
+  homePortrait: "assets/home-keigo-ogasawara.jpg",
 };
 
 export const education = [
   {
-    period: { ja: "2025年4月 – 現在", en: "Apr. 2025 – Present" },
+    period: { ja: "現在", en: "Present" },
     organization: {
       ja: "苫小牧工業高等専門学校 専攻科",
       en: "National Institute of Technology (KOSEN), Tomakomai College — Advanced Course",
@@ -41,7 +42,7 @@ export const education = [
     visible: true,
   },
   {
-    period: { ja: "2020年4月 – 2025年3月", en: "Apr. 2020 – Mar. 2025" },
+    period: { ja: "2025年3月 卒業", en: "Graduated March 2025" },
     organization: {
       ja: "苫小牧工業高等専門学校 本科",
       en: "National Institute of Technology (KOSEN), Tomakomai College",
@@ -94,6 +95,8 @@ export const skillGroups = [
   {
     key: "research",
     title: { ja: "研究・計測", en: "Research & measurement" },
+    description: { ja: "光学式マウスセンサを用いた眼球変位量取得の研究で扱っている領域です。", en: "Areas explored in the optical-mouse-sensor eye-displacement research." },
+    projectSlugs: ["microsaccade-eye-displacement"],
     skills: [
       { name: { ja: "画像処理", en: "Image processing" }, draft: false },
       { name: { ja: "光学センシング", en: "Optical sensing" }, draft: false },
@@ -103,17 +106,19 @@ export const skillGroups = [
   {
     key: "languages",
     title: { ja: "言語", en: "Languages" },
+    description: { ja: "公開しているタイマーと福笑いの実装に使用しています。", en: "Used in the published timer and fukuwarai implementations." },
+    projectSlugs: ["presentation-timer", "ny-pulse-2026"],
     skills: [
       { name: "TypeScript", draft: false },
       { name: "JavaScript", draft: false },
-      { name: "Python", draft: false },
-      { name: "C / C++", draft: false },
       { name: "HTML / CSS", draft: false },
     ],
   },
   {
     key: "tools",
     title: { ja: "Web・開発ツール", en: "Web & development tools" },
+    description: { ja: "タイマーの画面構成、ゲームの描画、公開・コード管理に使用しています。", en: "Used for the timer UI, game rendering, deployment, and version control." },
+    projectSlugs: ["presentation-timer", "ny-pulse-2026"],
     skills: [
       { name: "React", draft: false },
       { name: "Vite", draft: false },

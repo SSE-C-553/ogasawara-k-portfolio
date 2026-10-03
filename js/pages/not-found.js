@@ -12,7 +12,7 @@ export const renderNotFound = (message = t("notFound.body")) => `
       <span class="mx-auto grid size-16 place-items-center rounded-[14px] bg-accent-soft font-display text-lg font-semibold text-accent">404</span>
       <h1 class="mt-6 font-display text-4xl font-semibold tracking-[-0.04em]" tabindex="-1">${escapeHTML(t("notFound.title"))}</h1>
       <p class="mt-3 text-sm leading-7 text-muted">${escapeHTML(message)}</p>
-      <a class="mt-7 inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-3 text-sm font-semibold text-canvas hover:bg-accent" href="${localizedRoute("home")}" data-route>${escapeHTML(t("notFound.home"))}${icon("arrowRight", "size-4")}</a>
+      <a class="mt-7 inline-flex items-center gap-2 rounded-lg bg-ink px-5 py-3 text-sm font-semibold text-canvas hover:opacity-85" href="${localizedRoute("home")}" data-route>${escapeHTML(t("notFound.home"))}${icon("arrowRight", "size-4")}</a>
     </div>
   </section>
 `;

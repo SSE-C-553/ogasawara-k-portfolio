@@ -1,106 +1,70 @@
-# Ogasawara Keigo Portfolio
+# Keigo Ogasawara Portfolio
 
-小笠原圭吾のプロフィール、経歴、プロジェクト、論文・発表、ニュース、連絡先を掲載するGitHub Pages向けの静的ポートフォリオです。
+小笠原圭吾のプロフィール、経歴、研究・作品、発表、ニュース、連絡先を掲載する GitHub Pages 向けの静的サイトです。Tailwind CSS v4、ES Modules を使用し、日本語・英語、ライト・ダークテーマに対応します。
 
-Tailwind CSS v4で画面を構築し、JavaScriptはES Modulesで分割しています。日本語・英語、ライト・ダークテーマ、一覧検索、カテゴリ・年による絞り込み、個別詳細ページに対応しています。
+## ローカル確認
 
-## ページ構成
-
-- Home：概要、注目プロジェクト、最近のニュース
-- About：自己紹介、プロフィール、学歴、スキル、関心分野
-- Projects：プロジェクト一覧、検索、絞り込み、個別詳細
-- Publications：論文・発表一覧、検索、絞り込み
-- News：活動更新一覧、検索、絞り込み、個別詳細
-- Contact：メール、GitHub、所在地
-
-主なURLは次の形式です。
-
-```text
-?page=home&lang=ja
-?page=about&lang=en
-?page=projects&lang=ja
-?page=project&id=<project-slug>&lang=ja
-?page=publications&lang=ja
-?page=news&lang=ja
-?page=news-detail&id=<news-slug>&lang=ja
-?page=contact&lang=ja
-```
-
-旧URLの `profile`、`career`、`activities` は、それぞれ現在の該当ページへ自動的に置き換わります。
-
-## 掲載内容を変更する
-
-掲載内容は `data/` に用途別でまとめています。翻訳対象の値は `{ ja: "日本語", en: "English" }` の形式で記載します。
-
-- `data/profile.js`：氏名、所属、自己紹介、学歴、スキル、関心分野
-- `data/projects.js`：プロジェクト一覧と詳細
-- `data/publications.js`：論文、学会発表、ポスターなど
-- `data/news.js`：研究、発表、受賞、公開情報
-- `data/links.js`：GitHubやSNSのURL
-
-現在のプロジェクトとニュースには、画面構成を確認するためのプレースホルダーがあります。`draft: true` の項目には「仮データ」と表示されるため、実情報へ差し替えた後に `false` へ変更してください。
-
-作品画像は `assets/` に置き、各データの `image` に相対パスを指定します。画像を設定するときは、同時に日本語・英語の `imageAlt` も記載してください。
-
-論文・発表は本人確認済みの書誌情報だけを掲載する方針のため、現在は空状態を表示します。
-
-## ローカルで確認する
-
-依存関係をインストールし、配信用CSSを生成します。
+Node.js 22 以降を使用します。
 
 ```powershell
-npm install
+npm ci
+npm test
+npm run dev
+```
+
+ビルド後、http://127.0.0.1:8000/ を開きます。ファイルを変更したら再ビルドし、ブラウザを再読み込みしてください。
+
+```powershell
 npm run build
+npm run preview
 ```
 
-ES Modulesへ正しいMIMEタイプを返す同梱サーバーを起動します。
+別ポートは起動前に `$env:PORTFOLIO_PORT=4173` と指定します。`npm run dev:css` は CSS の監視用ですが、HTML の事前生成には別途 `npm run build` が必要です。
+
+## ページと URL
+
+- `/`：Home
+- `/about/`：自己紹介・経歴・受賞・スキル
+- `/projects/`、`/projects/<slug>/`：研究・作品と詳細
+- `/publications/`：論文・発表
+- `/news/`、`/news/<slug>/`：活動更新と記事本文
+- `/contact/`：メール・GitHub
+
+英語版は各パスの前に `/en/` が付きます。公開時はすべて `/ogasawara-k-portfolio/` 配下になります。
+
+従来の `?page=home&lang=ja` などの URL も使えます。旧ページ名 `profile`、`career`、`activities` は現在のページへ移動します。名刺の既存 QR コードを作り直す必要はありません。名刺には変更の少ないサイトのトップ URL を使用してください。
+
+## 掲載内容の編集
+
+`data/` の各ファイルを編集します。翻訳は `{ ja: "日本語", en: "English" }` 形式です。
+
+- `profile.js`：氏名、所属、経歴、受賞、スキル
+- `projects.js`：研究・作品、制作背景、担当範囲、成果、リンク
+- `publications.js`：発表・論文の書誌情報と発表状況
+- `news.js`：活動更新。記事本文の `body` は空行で段落を区切ります
+- `links.js`：外部リンク
+- `site.js`：公開 URL、ベースパス、OGP 画像
+
+`visible: false` は画面上の非表示、`draft: true` は仮データ表示です。非表示はアクセス制限ではないため、非公開情報をデータファイルや public リポジトリに置かないでください。現在は実情報・出典のある項目を掲載しています。未確認の担当範囲や成果を推測で追加しないでください。`peerReviewed: null` は査読有無が未確認の状態で、画面に査読ラベルを出しません。英語の仮訳にはその旨を明記します。
+
+研究の担当範囲（回路・機構・コード・解析・実験など）、公開可能な評価条件・数値、発表資料の共有可否、詳しい入学年月、Python/C++ 等の使用経験は、本人確認後に追加してください。VRSJ 2026 の 9 月 8 日発表は本人確認により実施済みです。
+
+作品画像は実際のアプリ画面と大会プログラム掲載図を使用しています。研究図の出典リンクは画像下に記載します。画像・発表資料を追加する際は共同研究者や権利者の公開許可も確認してください。仮の計測イラストは配信対象から外しています。
+
+## ビルドと公開
+
+`npm run build` は CSS と日英の HTML を `dist/` に生成します。本文・ページ別メタ情報・canonical・hreflang・JSON-LD・サイトマップは JavaScript 実行前から HTML に入ります。
+
+公開対象は `dist/` のみです。README、調査メモ、添付ファイル、ソース用スクリプト、node_modules は Web サイトへ配信しません。ただし public リポジトリ自体に置いたファイルは GitHub 上で閲覧できます。
+
+`.github/workflows/pages.yml` が main/master への push 時に、依存関係のインストール、テスト、ビルド、Pages へのデプロイを行います。GitHub の Settings → Pages → Source は GitHub Actions に設定してください。
+
+公開 URL：https://sse-c-553.github.io/ogasawara-k-portfolio/
+
+OGP は `assets/og-image.jpg` を使用します。氏名・所属・写真が変わった場合、`scripts/og-preview.html` をソース確認用サーバーで開いて 1200 × 630 px の画像を再作成し、再ビルドします。
 
 ```powershell
-npm run dev
+node scripts/dev-server.mjs --source
 ```
 
-ブラウザで `http://127.0.0.1:8000/` を開いてください。別ポートを使う場合は次のように指定できます。
-
-```powershell
-$env:PORTFOLIO_PORT=4173
-npm run dev
-```
-
-デザインを編集しながらCSSを自動生成する場合は、別のターミナルで次を実行します。
-
-```powershell
-npm run dev:css
-```
-
-## GitHub Pagesへ公開する
-
-`.github/workflows/pages.yml` が `main` または `master` ブランチへのpushを検知し、静的ファイルをGitHub Pagesへ公開します。
-
-1. リポジトリの **Settings → Pages** を開く。
-2. **Build and deployment → Source** で **GitHub Actions** を選ぶ。
-3. `npm run build` で `styles.css` を更新する。
-4. 変更をコミットしてpushする。
-
-このリポジトリの公開URLは `https://sse-c-553.github.io/ogasawara-k-portfolio/` です。
-
-## ファイル構成
-
-```text
-.
-├── .github/workflows/pages.yml  # GitHub Pagesへの自動公開
-├── assets/                      # プロジェクト画像とfavicon
-├── data/                        # 差し替えるプロフィールと実績データ
-├── js/
-│   ├── components/              # 共通UI
-│   ├── pages/                   # ページ単位の描画処理
-│   ├── app.js                   # 画面全体の制御
-│   ├── filters.js               # 検索、絞り込み、ページ送り
-│   ├── i18n.js                  # 日本語・英語
-│   └── router.js                # URLルーティング
-├── scripts/dev-server.mjs       # ローカル確認用サーバー
-├── src/tailwind.css             # Tailwindテーマと共通スタイル
-├── IMPLEMENTATION_PLAN.md       # 方針、仕様、進捗
-├── index.html                   # 共通HTML
-├── package.json                 # ビルドと開発コマンド
-└── styles.css                   # 生成済みの配信用CSS
-```
+`--source` は編集用素材の確認専用です。通常の動作確認は配信対象を限定するため、ビルド済みのプレビューを使用します。

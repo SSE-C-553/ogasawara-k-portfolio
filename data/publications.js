@@ -1,5 +1,7 @@
 export const publications = [
   {
+    projectSlug: "microsaccade-eye-displacement",
+    venueShort: { ja: "VRSJ 2026", en: "VRSJ 2026" },
     title: {
       ja: "光学式マウスセンサを用いたマイクロサッケード検出に向けた眼球変位量取得手法の検討",
       en: "A Study of an Eye-displacement Acquisition Method Toward Microsaccade Detection Using an Optical Mouse Sensor",
@@ -12,10 +14,11 @@ export const publications = [
     },
     year: 2026,
     type: "conference",
-    peerReviewed: false,
-    award: { ja: "2026年9月8日 発表予定", en: "Scheduled for September 8, 2026" },
+    peerReviewed: null,
+    status: { ja: "2026年9月8日 発表済み", en: "Presented on September 8, 2026" },
+    translatedTitle: true,
     links: {
-      url: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html",
+      url: "https://www.conference.vrsj.org/ac2026/program/program-flash03.html#3E1-09",
     },
     visible: true,
     draft: false,

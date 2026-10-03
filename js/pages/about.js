@@ -1,184 +1,73 @@
-import {
-  education,
-  extracurriculars,
-  interests,
-  profile,
-  qualifications,
-  skillGroups,
-} from "../../data/profile.js";
+import { education, extracurriculars, profile, qualifications, skillGroups } from "../../data/profile.js";
+import { projects } from "../../data/projects.js";
 import { localize, t } from "../i18n.js";
-import {
-  containerClass,
-  draftBadge,
-  escapeHTML,
-  icon,
-  pageHeader,
-  sectionHeading,
-} from "../components/common.js";
+import { containerClass, draftBadge, escapeHTML, icon, localizedRoute, pageHeader } from "../components/common.js";
 
-const recordList = (items) => `
-  <div class="divide-y divide-line border-y border-line">
-    ${items
-      .filter((item) => item.visible !== false)
-      .map(
-        (item) => `
-          <article class="grid gap-3 py-7 sm:grid-cols-[145px_1fr] sm:gap-8" data-reveal>
-            <time class="font-mono text-[10px] font-bold tracking-wide text-muted">${escapeHTML(localize(item.period))}</time>
-            <div>
-              <div class="flex flex-wrap items-center gap-3">
-                <h3 class="font-display text-lg font-semibold">${escapeHTML(localize(item.title))}</h3>
-                ${draftBadge(item.draft)}
-              </div>
-              <p class="mt-1 text-sm font-semibold text-accent">${escapeHTML(localize(item.organization))}</p>
-              <p class="mt-3 max-w-3xl text-sm leading-7 text-muted">${escapeHTML(localize(item.description))}</p>
-              ${
-                item.url
-                  ? `<a class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-accent transition hover:opacity-70" href="${escapeHTML(item.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(item.sourceLabel))}${icon("arrowUpRight", "size-3.5")}</a>`
-                  : ""
-              }
+const recordList = (items) => `<div class="divide-y divide-line">
+  ${items.filter((item) => item.visible !== false).map((item) => `<article class="grid gap-2 py-5 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-7" data-reveal>
+    <p class="text-sm leading-7 text-muted">${escapeHTML(localize(item.period))}</p>
+    <div><h3 class="text-base font-semibold leading-7">${escapeHTML(localize(item.title))}</h3>
+      <p class="mt-1 text-sm leading-7 text-muted">${escapeHTML(localize(item.organization))}</p>
+      <p class="mt-2 text-base leading-8">${escapeHTML(localize(item.description))}</p>
+      ${item.url ? `<a class="mt-3 inline-flex min-h-8 items-center gap-2 text-sm font-medium text-accent underline decoration-line underline-offset-4 hover:decoration-accent" href="${escapeHTML(item.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(item.sourceLabel))}${icon("arrowUpRight")}</a>` : ""}
+      ${draftBadge(item.draft)}
+    </div>
+  </article>`).join("")}
+</div>`;
+
+export const renderAbout = () => `<article class="reading-page">
+  ${pageHeader({ title: t("about.title"), description: t("about.description") })}
+  <div class="${containerClass} pb-14 sm:pb-20">
+    <div class="mx-auto max-w-[760px]">
+      <section aria-labelledby="profile-name" class="pb-9 sm:pb-12" data-reveal>
+        <div class="grid grid-cols-[minmax(0,1fr)_88px] items-center gap-x-6 gap-y-5 sm:grid-cols-[minmax(0,1fr)_140px] sm:items-start sm:gap-x-9">
+          <h2 id="profile-name" class="text-xl font-semibold leading-8">${escapeHTML(localize(profile.name))}</h2>
+          ${profile.portrait ? `<img class="aspect-[3/4] w-full self-start rounded-md object-cover sm:row-span-2" src="${escapeHTML(profile.portrait)}" alt="${escapeHTML(localize(profile.name))}" width="960" height="1280" decoding="async" />` : ""}
+          <p class="col-span-2 text-base leading-8 sm:col-span-1 sm:col-start-1 sm:row-start-2">${escapeHTML(localize(profile.fullBio))}</p>
+        </div>
+        <dl class="mt-6 grid gap-3">
+          ${[[t("about.affiliation"), localize(profile.affiliation)], [t("about.origin"), localize(profile.origin)]].map(([label, value]) =>
+            `<div class="grid grid-cols-[64px_minmax(0,1fr)] gap-4"><dt class="text-sm leading-7 text-muted">${escapeHTML(label)}</dt><dd class="text-sm leading-7">${escapeHTML(value)}</dd></div>`,
+          ).join("")}
+        </dl>
+        <nav class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-accent" aria-label="${escapeHTML(t("about.sections"))}">
+          ${[["career", t("about.career")], ["awards", t("about.qualifications")], ["skills", t("about.skills")]].map(([id, label]) =>
+            `<a class="inline-flex min-h-9 items-center underline decoration-line underline-offset-4 hover:decoration-accent" href="${localizedRoute("about", {}, id)}" data-route>${escapeHTML(label)}</a>`,
+          ).join("")}
+        </nav>
+      </section>
+
+      <section id="career" aria-labelledby="career-title" class="border-t border-line py-8 sm:py-10">
+        <h2 id="career-title" class="text-xl font-semibold">${escapeHTML(localize({ ja: "学歴・受賞", en: "Education & awards" }))}</h2>
+        <div class="mt-2 divide-y divide-line">
+          ${education.filter((entry) => entry.visible).map((entry) => `<article class="grid gap-2 py-5 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-7" data-reveal>
+            <p class="text-sm leading-7 text-muted">${escapeHTML(localize(entry.period))}</p>
+            <div><div class="flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 class="text-base font-semibold leading-7">${escapeHTML(localize(entry.organization))}</h3>
+              ${entry.current ? `<span class="text-xs font-medium text-muted">${escapeHTML(t("common.current"))}</span>` : ""}
+            </div><p class="mt-1 text-sm leading-7">${escapeHTML(localize(entry.program))}</p>
+              <p class="mt-2 text-base leading-8">${escapeHTML(localize(entry.description))}</p>
             </div>
-          </article>
-        `,
-      )
-      .join("")}
+          </article>`).join("")}
+        </div>
+        ${qualifications.some((item) => item.visible !== false) ? `<div id="awards" class="mt-5 border-t border-line pt-6"><h3 class="text-sm font-semibold text-muted">${escapeHTML(t("about.qualifications"))}</h3>${recordList(qualifications)}</div>` : `<span id="awards"></span>`}
+      </section>
+
+      <section id="skills" aria-labelledby="skills-title" class="border-t border-line pt-8 sm:pt-10">
+        <h2 id="skills-title" class="text-xl font-semibold">${escapeHTML(localize({ ja: "技術・活動", en: "Technologies & activities" }))}</h2>
+        <div class="mt-2 divide-y divide-line">
+          ${skillGroups.map((group) => `<article class="grid gap-2 py-5 sm:grid-cols-[140px_minmax(0,1fr)] sm:gap-7" data-reveal>
+            <h3 class="text-sm font-semibold leading-7 text-muted">${escapeHTML(localize(group.title))}</h3>
+            <div>
+              <p class="text-base font-medium leading-8">${group.skills.map((skill) => escapeHTML(localize(skill.name))).join(" / ")}</p>
+              <p class="mt-2 text-base leading-8">${escapeHTML(localize(group.description))}</p>
+              <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-2">${(group.projectSlugs || []).map((slug) => projects.find((item) => item.slug === slug && item.visible)).filter(Boolean).map((item) =>
+                `<li><a class="inline-flex items-center gap-1 text-sm font-medium leading-7 text-accent underline decoration-line underline-offset-4 hover:decoration-accent" href="${localizedRoute("project", { id: item.slug })}" data-route>${escapeHTML(localize(item.title))}${icon("arrowRight", "size-3 shrink-0")}</a></li>`,
+              ).join("")}</ul>
+            </div>
+          </article>`).join("")}
+        </div>
+        ${extracurriculars.some((item) => item.visible !== false) ? `<div class="mt-5 border-t border-line pt-6"><h3 class="text-sm font-semibold text-muted">${escapeHTML(t("about.extracurriculars"))}</h3>${recordList(extracurriculars)}</div>` : ""}
+      </section>
+    </div>
   </div>
-`;
-
-export const renderAbout = () => {
-  const visibleEducation = education.filter((item) => item.visible);
-  const visibleInterests = interests.filter((item) => item.visible);
-  const portrait = profile.portrait
-    ? `<img class="size-full object-cover" src="${escapeHTML(profile.portrait)}" alt="${escapeHTML(localize(profile.name))}" />`
-    : `<div class="news-placeholder grid size-full place-items-center">
-        <div class="text-center">
-          <strong class="font-display text-7xl font-semibold tracking-[-0.08em] text-accent/25">KO</strong>
-          <p class="mt-4 text-xs font-semibold text-muted">${escapeHTML(t("about.portraitPending"))}</p>
-        </div>
-      </div>`;
-
-  return `
-    <section>
-      ${pageHeader({
-        kicker: t("about.kicker"),
-        title: t("about.title"),
-        description: t("about.description"),
-      })}
-
-      <div class="${containerClass} grid gap-8 pb-16 md:grid-cols-[0.72fr_1.28fr] sm:pb-24">
-        <aside class="overflow-hidden rounded-[16px] border border-line bg-surface p-3 shadow-card" data-reveal>
-          <div class="aspect-[4/5] overflow-hidden rounded-[11px]">${portrait}</div>
-        </aside>
-        <div data-reveal>
-          <p class="font-display text-xs font-semibold uppercase tracking-[0.18em] text-accent">${escapeHTML(t("about.intro"))}</p>
-          <h2 class="mt-3 font-display text-3xl font-semibold tracking-[-0.035em]">${escapeHTML(localize(profile.name))}</h2>
-          <p class="mt-2 font-display text-sm font-medium text-muted">${escapeHTML(localize(profile.role))}</p>
-          <p class="mt-7 text-base leading-8 text-muted">${escapeHTML(localize(profile.fullBio))}</p>
-
-          <section class="mt-10" aria-labelledby="profile-facts">
-            <h3 class="font-display text-lg font-semibold" id="profile-facts">${escapeHTML(t("about.profile"))}</h3>
-            <dl class="mt-4 divide-y divide-line border-y border-line">
-              ${[
-                [t("about.name"), localize(profile.name)],
-                [t("about.affiliation"), localize(profile.affiliation)],
-                [t("about.origin"), localize(profile.origin)],
-                [t("about.focus"), localize(interests[0]?.title)],
-              ]
-                .map(
-                  ([label, value]) => `
-                    <div class="grid gap-1 py-4 sm:grid-cols-[130px_1fr]">
-                      <dt class="text-xs font-semibold text-muted">${escapeHTML(label)}</dt>
-                      <dd class="text-sm font-medium">${escapeHTML(value)}</dd>
-                    </div>
-                  `,
-                )
-                .join("")}
-            </dl>
-          </section>
-        </div>
-      </div>
-
-      <section class="border-y border-line bg-surface" id="career">
-        <div class="${containerClass} py-16 sm:py-24">
-          ${sectionHeading({ kicker: "TIMELINE", title: t("about.career") })}
-          <div class="relative">
-            <div class="absolute bottom-8 left-[5px] top-8 w-px bg-line sm:left-[154px]" aria-hidden="true"></div>
-            ${visibleEducation
-              .map(
-                (entry) => `
-                  <article class="relative grid gap-3 border-b border-line py-7 pl-8 sm:grid-cols-[125px_1fr] sm:gap-8 sm:pl-0" data-reveal>
-                    <span class="absolute left-0 top-9 size-[11px] rounded-full border-2 border-surface bg-accent ring-1 ring-accent sm:left-[149px]" aria-hidden="true"></span>
-                    <time class="font-mono text-[10px] font-bold tracking-wide text-muted">${escapeHTML(localize(entry.period))}</time>
-                    <div class="sm:pl-8">
-                      <div class="flex flex-wrap items-center gap-3">
-                        <h3 class="font-display text-lg font-semibold">${escapeHTML(localize(entry.organization))}</h3>
-                        ${entry.current ? `<span class="rounded-full bg-accent px-2.5 py-1 text-[10px] font-semibold text-white">${escapeHTML(t("common.current"))}</span>` : ""}
-                        ${draftBadge(entry.draft)}
-                      </div>
-                      <p class="mt-1 text-sm font-semibold text-accent">${escapeHTML(localize(entry.program))}</p>
-                      <p class="mt-3 max-w-2xl text-sm leading-7 text-muted">${escapeHTML(localize(entry.description))}</p>
-                    </div>
-                  </article>
-                `,
-              )
-              .join("")}
-          </div>
-        </div>
-      </section>
-
-      <section class="${containerClass} py-16 sm:py-24">
-        ${sectionHeading({ kicker: "SKILLS", title: t("about.skills") })}
-        <div class="grid gap-5 md:grid-cols-3">
-          ${skillGroups
-            .map(
-              (group) => `
-                <article class="rounded-[12px] border border-line bg-surface p-6" data-reveal>
-                  <h3 class="font-display text-lg font-semibold">${escapeHTML(localize(group.title))}</h3>
-                  <ul class="mt-5 flex flex-wrap gap-2">
-                    ${group.skills
-                      .map(
-                        (skill) =>
-                          `<li class="inline-flex items-center gap-2 rounded-full border border-line px-3 py-2 text-xs font-semibold">${escapeHTML(localize(skill.name))}${draftBadge(skill.draft)}</li>`,
-                      )
-                      .join("")}
-                  </ul>
-                </article>
-              `,
-            )
-            .join("")}
-        </div>
-      </section>
-
-      <section class="border-t border-line bg-surface">
-        <div class="${containerClass} py-16 sm:py-24">
-          ${sectionHeading({ kicker: "INTERESTS", title: t("about.interests") })}
-          <div class="grid gap-5 md:grid-cols-3">
-            ${visibleInterests
-              .map(
-                (interest) => `
-                  <article class="rounded-[12px] border border-line bg-canvas p-6" data-reveal>
-                    <div class="flex flex-wrap items-center gap-3">
-                      <h3 class="font-display text-lg font-semibold">${escapeHTML(localize(interest.title))}</h3>
-                      ${draftBadge(interest.draft)}
-                    </div>
-                    <p class="mt-3 text-sm leading-7 text-muted">${escapeHTML(localize(interest.description))}</p>
-                  </article>
-                `,
-              )
-              .join("")}
-          </div>
-        </div>
-      </section>
-
-      ${
-        qualifications.some((item) => item.visible !== false)
-          ? `<section class="border-t border-line"><div class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "QUALIFICATIONS", title: t("about.qualifications") })}${recordList(qualifications)}</div></section>`
-          : ""
-      }
-      ${
-        extracurriculars.some((item) => item.visible !== false)
-          ? `<section class="border-y border-line bg-surface"><div class="${containerClass} py-16 sm:py-24">${sectionHeading({ kicker: "ACTIVITIES", title: t("about.extracurriculars") })}${recordList(extracurriculars)}</div></section>`
-          : ""
-      }
-    </section>
-  `;
-};
+</article>`;

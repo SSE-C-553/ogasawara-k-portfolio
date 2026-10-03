@@ -4,7 +4,7 @@ import { localize, t } from "../i18n.js";
 import {
   containerClass,
   emptyState,
-  filterBar,
+  filterPanel,
   pageHeader,
   pagination,
   resultCount,
@@ -20,7 +20,7 @@ export const renderNews = (route) => {
   const filtered = source.filter((item) => {
     const matchesQuery =
       !query ||
-      searchableText(localize(item.title), localize(item.summary), item.category).includes(query);
+      searchableText(item.title.ja, item.title.en, item.summary.ja, item.summary.en, localize(item.body), item.category).includes(query);
     const matchesCategory = !category || item.category === category;
     const matchesYear = !year || getYear(item.date) === year;
     return matchesQuery && matchesCategory && matchesYear;
@@ -43,8 +43,10 @@ export const renderNews = (route) => {
         title: t("news.title"),
         description: t("news.description"),
       })}
-      <div class="${containerClass} pb-16 sm:pb-24">
-        ${filterBar({
+      <div class="${containerClass} pb-12 sm:pb-16">
+        ${filterPanel({
+          count: source.length,
+          active: Boolean(query || category || year),
           query: route.filters.q,
           searchPlaceholder: t("news.searchPlaceholder"),
           selects: [
@@ -62,10 +64,10 @@ export const renderNews = (route) => {
             },
           ],
         })}
-        ${resultCount(filtered.length)}
+        ${query || category || year ? resultCount(filtered.length) : ""}
         ${
           pageData.items.length
-            ? `<div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">${pageData.items.map((item) => newsCard(item)).join("")}</div>`
+            ? `<div class="border-t border-line">${pageData.items.map((item) => newsCard(item)).join("")}</div>`
             : emptyState({
                 title: t("news.emptyTitle"),
                 body: t("news.emptyBody"),
