@@ -27,6 +27,10 @@ export const profile = {
     ],
   },
   origin: { ja: "北海道苫小牧市", en: "Tomakomai, Hokkaido, Japan" },
+  interestAreas: {
+    ja: "画像処理、センシング、視線計測、HCI",
+    en: "Image processing, sensing, gaze measurement, HCI",
+  },
   location: { ja: "北海道", en: "Hokkaido, Japan" },
   email: "okeigo1122@gmail.com",
   shortBio: {
@@ -53,7 +57,7 @@ export const education = [
       en: "Advanced Course of Engineering for Innovation — Division of Electronics and Information Engineering, Advanced Electronics and Information Engineering Course",
     },
     description: {
-      ja: "センシングを軸に、光学式マウスセンサを用いたマイクロサッケード検出に向けた眼球変位量の取得手法を研究しています。",
+      ja: "光学式マウスセンサを用いた眼球変位量取得手法の研究。マイクロサッケード検出に向けたセンシング技術の検討。",
       en: "Conducting sensing research on acquiring eye displacement using an optical mouse sensor, with the goal of detecting microsaccades.",
     },
     current: true,
@@ -71,7 +75,7 @@ export const education = [
       en: "Department of Engineering for Innovation, Computer Science and Engineering Program",
     },
     description: {
-      ja: "プログラミングや情報工学を学び、チーム開発や実験を通じて課題整理・議論・問題解決の経験を積みました。2025年3月に卒業しました。",
+      ja: "プログラミング・情報工学の学習。チーム開発・実験を通じた課題整理・議論・問題解決の経験。2025年3月卒業。",
       en: "Studied programming and information engineering, gaining experience in collaborative development, experimentation, discussion, and problem solving. Graduated in March 2025.",
     },
     current: false,
@@ -167,6 +171,12 @@ export const qualifications = [
       ja: "2024年度の工業高等専門学校奨励賞受賞者として掲載されています。",
       en: "Listed as a recipient of the Hokkaido Branch Technical College Encouragement Award for fiscal year 2024.",
     },
+    sources: [
+      {
+        label: { ja: "受賞者一覧（情報処理学会 北海道支部）", en: "Award recipients (IPSJ Hokkaido Branch)" },
+        url: "https://hokkaido.ipsj.or.jp/pukiwiki/index.php?%E9%81%8E%E5%8E%BB%E3%81%AE%E5%8C%97%E6%B5%B7%E9%81%93%E6%94%AF%E9%83%A8%E5%A5%A8%E5%8A%B1%E8%B3%9E%E3%83%BB%E6%8A%80%E8%A1%93%E8%B3%9E%E5%8F%97%E8%B3%9E%E8%80%85%E4%B8%80%E8%A6%A7#e561a708",
+      },
+    ],
     sourceLabel: { ja: "学校広報（PDF）", en: "College magazine (PDF)" },
     url: "https://www.tomakomai-ct.ac.jp/uploads/files/information/magazine/kosentsushin168.pdf",
     draft: false,

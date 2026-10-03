@@ -16,6 +16,21 @@ import {
   sectionHeading,
 } from "../components/common.js";
 
+const recordSources = (item) => {
+  const sources = [
+    ...(item.sources ?? []),
+    ...(item.url ? [{ label: item.sourceLabel, url: item.url }] : []),
+  ];
+
+  return sources.length
+    ? `<div class="mt-4 flex flex-wrap gap-4">${sources
+        .map(
+          (source) => `<a class="inline-flex items-center gap-1.5 text-xs font-semibold text-accent transition hover:opacity-70" href="${escapeHTML(source.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(source.label))}${icon("arrowUpRight", "size-3.5")}</a>`,
+        )
+        .join("")}</div>`
+    : "";
+};
+
 const recordList = (items) => `
   <div class="divide-y divide-line border-y border-line">
     ${items
@@ -31,11 +46,7 @@ const recordList = (items) => `
               </div>
               <p class="mt-1 text-sm font-semibold text-accent">${escapeHTML(localize(item.organization))}</p>
               <p class="mt-3 max-w-3xl text-sm leading-7 text-muted">${escapeHTML(localize(item.description))}</p>
-              ${
-                item.url
-                  ? `<a class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-accent transition hover:opacity-70" href="${escapeHTML(item.url)}" target="_blank" rel="noreferrer">${escapeHTML(localize(item.sourceLabel))}${icon("arrowUpRight", "size-3.5")}</a>`
-                  : ""
-              }
+              ${recordSources(item)}
             </div>
           </article>
         `,
@@ -81,7 +92,7 @@ export const renderAbout = () => {
                 [t("about.name"), localize(profile.name)],
                 [t("about.affiliation"), localize(profile.affiliation)],
                 [t("about.origin"), localize(profile.origin)],
-                [t("about.focus"), localize(interests[0]?.title)],
+                [t("about.interestAreas"), localize(profile.interestAreas)],
               ]
                 .map(
                   ([label, value]) => `
